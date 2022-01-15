@@ -209,6 +209,10 @@
 	<td><p>Проверяет индексацию в Google через оператор site:</p></td>
        </tr>
 	<tr>
+        <td><a href="javascript: (function() { window.open('https://www.google.com/search?q=site:' + location.hostname + '&tbs=qdr:d')})();">Google Index 24h</a></td>
+	<td><p>Проверяет индексацию в Google страниц сайта за последние 24 часа. Полезно, чтобы понимать частоту публикаций на сайте, а также насколько быстро страницы заходят в индекс.</p></td>
+       </tr>
+	<tr>
         <td><a href="javascript:(function(domain){window.open('https://yandex.fr/search/?how=tm&text=url:'+encodeURIComponent(domain)+'+|+url:www.'+encodeURIComponent(domain)+'&lr=213');})(document.location.href.match(/^htt(p|ps):\/\/(?:www\.)?(.*?)\/?$/)[2]||'');void(0);">Проверка индексации в Яндекс</a></td>
 	<td><p>Проверяет индексацию в Яндекс</p></td>
        </tr> 
