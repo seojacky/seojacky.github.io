@@ -217,6 +217,14 @@
 	<td><p>Проверяет индексацию в Google через оператор site:</p></td>
        </tr>
 	<tr>
+        <td><a href="javascript: q = '' + (window.getSelection ? window.getSelection() : document.getSelection ? document.getSelection() : document.selection.createRange().text);
+if (!q) q = prompt('Найти на сайте в Google').replace(/%5Cs%5C+/g, '%252B');
+if (q != null) var newwin = 'https://www.google.com/search?q=' + q.replace(/%5Cs+/g, '+') + '+site:' + location.hostname;
+window.open(newwin);
+void(0);">Поиск по сайту в Google</a></td>
+	<td><p>Поиск по сайту. Можно использовать для проверки индексации если выделить на странице фрагмент, скопировать и кликнуть букмарклет</p></td>
+       </tr>
+	<tr>
         <td><a href="javascript: (function() { window.open('https://www.google.com/search?q=site:' + location.hostname + '&tbs=qdr:d')})();">Google Index 24h</a></td>
 	<td><p>Проверяет индексацию в Google страниц сайта за последние 24 часа. Полезно, чтобы понимать частоту публикаций на сайте, а также насколько быстро страницы заходят в индекс.</p></td>
        </tr>
