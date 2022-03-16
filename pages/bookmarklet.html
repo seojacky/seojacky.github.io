@@ -224,7 +224,50 @@
 	<td><b>Другие</b></td>
        </tr>    
       <tr>
-        <td>Скрипт <a href="javascript: (function start() {    alert('Это простой скрипт экспорта сайтов из GGL. Нажмите ОК и наблюдайте как скрипт перелистывает страницы (пауза 10 сек). После окончания работы скрипта появится окно, где будет список сайтов.');    console.log('начали сбор');    var links = '';    var i = 1;    var str = '<style type=&#034;text\/css&#034;>body{color:#000;background-color:#fff;margin:0;padding:0;font-family:arial,helvetica,sans-serif;font-size:82%} textarea{width:100%}textarea{max-width: 300px;display: block;}<\/style>\n';    str += '<title>Список площадок</title>';    str += '<div style=&#034;width: 900px; margin: 0 auto;&#034;>';    str += '<h1>Скрипт парсинга с GGL</h1>';    str += '<p><b>Автор:</b> Eugen Kalinsky (aka seojacky)</p>';    str += '<p>bookmarklet создан на основе скрипта <a  href=&#034;#&#034; onclick="window.open(\'//checktrust.ru/manual/gogetlinks.html\'); return false;&#034;> от checktrust.ru<\/a><\/p>';    str += '<p><b>Контакты:</b></p>';    str += '<ul>';    str += '<li><a href=&#034;#&#034; onclick=&#034;window.open(\'//seojacky.github.io\'); return false;&#034;>seojacky.github.io<\/a><\/li>';    str += '<li><a href=&#034;#&#034; onclick="window.open(\'//www.linkedin.com/in/seojacky/\'); return false;&#034;>linkedin<\/a><\/li>';    str += '<li><a href=&#034;#&#034; onclick=&#034;window.open(\'https://t.me/big_jacky\'); return false;&#034;>telegram<\/a><\/li>';    str += '</ul>';    str += '<h2>Список площадок</h2>';    parser = setInterval(function() {        $('#table_content a:not(.table__sorting.js-sorting-column)').each(function() {            links += $(this).text() + '\n';        });        var pagen = $('.pagination__item_current').next();        if (pagen.length == 0) {            console.log(links);            clearInterval(parser);            str += '<textarea id=&#034;target&#034; style=&#034;overflow:hidden;&#034;>';            str += links;            str += '</textarea>';            str += '<button onclick="el=document.getElementById(\'target\');el.style.height = (el.scrollHeight > el.clientHeight) ? (el.scrollHeight)+\'px \' : \'60 px \';">Развернуть<\/button>';            str += '</div>';            with(window.open()) {                document.write(str);                document.close();            }        } else {            pagen.click();            i++;            console.log('страница ' + i);        }    }, 10000);})();" class="bookmarklet-button">Экспорт из GoGetLinks</a></td>
+        <td>Скрипт <a href="javascript: (function start() {
+        alert('Это простой скрипт экспорта сайтов из GGL. Нажмите ОК и наблюдайте как скрипт перелистывает страницы (пауза 10 сек). После окончания работы скрипта появится окно, где будет список сайтов.');
+        console.log('начали сбор');        
+        var links = '';
+        var i = 1;
+        var str = '<style type=\'text/css\'>body{color:#000;background-color:#fff;margin:0;padding:0;font-family:arial,helvetica,sans-serif;font-size:82%} textarea{width:100%}textarea{max-width: 300px;display: block;}<\/style>\n';
+        str += '<script>function expandTextArea() { el = document.getElementById(\'target\');el.style.height = (el.scrollHeight > el.clientHeight) ? (el.scrollHeight) + \'px \' : \'60 px \';}</script>';
+        str += '<title>Список площадок</title>';
+        str += '<div style=\'width: 900px; margin: 0 auto;\'>';
+        str += '<h1>Скрипт парсинга с GGL</h1>';
+        str += '<p><b>Автор:</b> Eugen Kalinsky (aka seojacky)</p>';
+        str += '<p>bookmarklet создан на основе скрипта <a  href=\'#\' onclick=window.open(\'//checktrust.ru/manual/gogetlinks.html\'); return false> от checktrust.ru<\/a><\/p>';
+        str += '<p><b>Контакты:</b></p>';
+        str += '<ul>';
+        str += '<li><a href=\'#\' onclick=window.open(\'//seojacky.github.io\'); return false>seojacky.github.io<\/a><\/li>';
+        str += '<li><a href=\'#\' onclick=window.open(\'//www.linkedin.com/in/seojacky/\'); return false>linkedin<\/a><\/li>';
+        str += '<li><a href=\'#\' onclick=window.open(\'https://t.me/big_jacky\'); return false>telegram<\/a><\/li>';
+        str += '</ul>';
+        str += '<h2>Список площадок</h2>';
+        parser = setInterval(function() {
+            $('#table_content a:not(.table__sorting.js-sorting-column)').each(function() {
+                links += $(this).text() + '\n';
+            });
+            var pagen = $('.pagination__item_current').next();
+            if (pagen.length == 0) {
+                console.log(links);
+                clearInterval(parser);
+                str += '<textarea id=\'target\' style=\'overflow:hidden;\'>';
+                str += links;
+                str += '</textarea>';
+                str += '<button onclick=expandTextArea()>Развернуть<\/button>';
+                str += '</div>';
+                with(window.open()) {
+                    document.write(str);
+                    document.close();
+                }
+            } else {
+                pagen.click();
+                i++;
+                console.log('страница ' + i);
+            }
+        }, 10000);
+    }
+    )();">Экспорт из GoGetLinks</a></td>
 	<td><p>Скрипт экспорта списка сайтов из биржи GoGetLinks. Просто кликаете на странице со списком сайтов и наблюдаете как скрипт листает страницы. Интервал перелистывания 10 сек. Результат можно наблюдать в консоли браузера. В конце работы скрипт генерирует форму с полным списком доменов. Базируется на https://checktrust.ru/manual/gogetlinks.html</p></td>
        </tr>
 
