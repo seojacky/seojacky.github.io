@@ -293,7 +293,6 @@ void(0);">Поиск по сайту в Google</a></td>
 	<td>
 	</td>
 	<td>
-	<a href='javascript: (function() {    var k = document.querySelectorAll(".ReactVirtualized__Table__headerColumn"),        l = [];    for (var j in k) {        var m = k[j].textContent;         l.push(m);     }    var countElementsArr = k.length;    var e = document.querySelectorAll(".ReactVirtualized__Table__row > .ReactVirtualized__Table__rowColumn"),        o = [],        d = window.open("", "win", "width=600,height=600");    d.document.write(\'<button onclick=\'var data = "\ufeff" + document.querySelector("body").innerText; data = data.replace(/Download/g, ""); data = data.replace(/^\s*;/gm, ""); var csvContent = "data:text/csv;charset=utf-8," + encodeURIComponent(data);  var link = document.createElement("a"); link.setAttribute("href", csvContent); link.setAttribute("download", "data.csv"); document.body.appendChild(link); link.click(); document.body.removeChild(link);\'>Download</button>\');        d.document.write("<pre>");            d.document.write(l.join(";") + "\n");    for (var i in e) {        var t = e[i].textContent;         o.push(t);     }     var x = 0;       for (var u in e) {        var v = e[u].textContent;        x = x + 1;        if (x === countElementsArr) {            d.document.write(e[u].textContent + ";" + "\n");            x = 0;        } else {            d.document.write(e[u].textContent + ";");        }    }    d.document.write("</pre>");    })()'>Export EDEBO to CSV</a>	
 	</td>
 	<td>
 	</td>
