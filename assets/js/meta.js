@@ -1,4 +1,3 @@
-
 (() => {
   const XHR = ('onload' in new XMLHttpRequest()) ? XMLHttpRequest : XDomainRequest;
   const xhr = new XHR();
@@ -7,7 +6,7 @@
   xhr.onload = () => {
     let code = xhr.responseText;
     if (!code) {
-      alert('РќРµ СѓРґР°Р»РѕСЃСЊ РїРѕР»СѓС‡РёС‚СЊ РєРѕРґ СЃС‚СЂР°РЅРёС†С‹.');
+      alert('Не удалось получить код страницы.');
       return;
     }
     const parser = new DOMParser();
@@ -18,11 +17,11 @@
     }
     const codeBody = code.getElementsByTagName('body')[0];
     if (!codeBody) {
-      alert('РќРµ СѓРґР°Р»РѕСЃСЊ РїСЂРѕРІРµСЂРёС‚СЊ РёР·-Р·Р° РѕС€РёР±РѕРє РІ HTML РєРѕРґРµ. РџСЂРѕРІРµСЂСЊС‚Рµ РєРѕРґ СЃС‚СЂР°РЅРёС†С‹ РЅР° РІР°Р»РёРґРЅРѕСЃС‚СЊ.');
+      alert('Не удалось проверить из-за ошибок в HTML коде. Проверьте код страницы на валидность.');
       return;
     }
 
-    // С„СѓРЅРєС†РёСЏ РґР»СЏ СѓРґР°Р»РµРЅРёСЏ РІ СЃС‚СЂРѕРєРµ РґРІРѕР№РЅС‹С… РїСЂРѕР±РµР»РѕРІ
+    // функция для удаления в строке двойных пробелов
     function dsr(str) {
       let returnStr = str;
       while (returnStr.indexOf('  ') + 1) {
@@ -54,7 +53,7 @@
     for (let i = 0; i < hd.length; i += 1) {
       if (i === 0) {
         if (hd[0].head !== 1) {
-          hd[0].error = 'РџРµСЂРІС‹Р№ Р·Р°РіРѕР»РѕРІРѕРє РЅРµ h1';
+          hd[0].error = 'Первый заголовок не h1';
           tempHeaders[hd[0].head] = true;
           hErr = true;
           continue;
@@ -62,23 +61,23 @@
       }
 
       if (hd[i].head === 1 && tempHeaders[1]) {
-        hd[i].error += 'Р‘РѕР»РµРµ РѕРґРЅРѕРіРѕ Р·Р°РіРѕР»РѕРІРєР° H1. ';
+        hd[i].error += 'Более одного заголовка H1. ';
       }
 
       if (hd[i].head === 1 && (tempHeaders[2] || tempHeaders[3] || tempHeaders[4] || tempHeaders[5] || tempHeaders[6])) {
-        hd[i].error += 'РќРµ РїРµСЂРІС‹Р№ Р·Р°РіРѕР»РѕРІРѕРє РІ РёРµСЂР°СЂС…РёРё.';
+        hd[i].error += 'Не первый заголовок в иерархии.';
       }
 
       if (hd[i].head !== 1 && !tempHeaders[hd[i].head - 1]) {
-        hd[i].error += 'РџРµСЂРµРґ Р·Р°РіРѕР»РѕРІРєРѕРј РЅРµ Р±С‹Р»Рѕ Р·Р°РіРѕР»РѕРІРєР° СѓСЂРѕРІРЅРµРј РІС‹С€Рµ. ';
+        hd[i].error += 'Перед заголовком не было заголовка уровнем выше. ';
       }
 
       if (hd[i - 1] && (hd[i].head - hd[i - 1].head > 1)) {
-        hd[i].error += 'РќР°СЂСѓС€Р°РµС‚ РёРµСЂР°СЂС…РёСЋ Р·Р°РіРѕР»РѕРІРєРѕРІ. ';
+        hd[i].error += 'Нарушает иерархию заголовков. ';
       }
 
       if (hd[i].text.replace(/ |\s|&nbsp;/gi, '') === '') {
-        hd[i].error += 'РџСѓСЃС‚РѕР№ Р·Р°РіРѕР»РѕРІРѕРє.';
+        hd[i].error += 'Пустой заголовок.';
       }
       tempHeaders[hd[i].head] = true;
       if (hd[i].error) {
@@ -111,8 +110,8 @@
     let rprev = code.querySelector('link[rel=prev]') || document.querySelector('link[rel=prev]');
     const title = code.querySelector('title') || document.querySelector('title');
     let codeScriptsDel = '';
-    // РЅР° https://paybis.com/ РЅРµ СЂР°Р±РѕС‚Р°РµС‚ title Рё description
-    // С†РёРєР» РІРёСЃРЅРµС‚. РќСѓР¶РЅРѕ РЅРµ СѓРґР°Р»СЏС‚СЊ src Рё href
+    // на https://paybis.com/ не работает title и description
+    // цикл виснет. Нужно не удалять src и href
 
     codeScriptsDel = code.getElementsByTagName('body')[0].cloneNode(true);
 
@@ -152,20 +151,20 @@
     }
 
     if (title) {
-      alertStr += `<p><b class="link_sim"  title="РЎРєРѕРїРёСЂРѕРІР°С‚СЊ title РІ Р±СѓС„РµСЂ РѕР±РјРµРЅР°">Title</b> <span ${(title.textContent.length < 30 || title.textContent.length > 150) ? "class='red'" : ''}>(${title.textContent.length}): </span>${title.textContent}</p>`;
+      alertStr += `<p><b class="link_sim"  title="Скопировать title в буфер обмена">Title</b> <span ${(title.textContent.length < 30 || title.textContent.length > 150) ? "class='red'" : ''}>(${title.textContent.length}): </span>${title.textContent}</p>`;
     } else {
-      alertStr += '<p><b class="red">Title: РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚</b></p>';
+      alertStr += '<p><b class="red">Title: отсутствует</b></p>';
     }
 
     if (descr) {
       descr = descr.content;
       if (descr) {
-        alertStr += `<p><b class="link_sim" title="РЎРєРѕРїРёСЂРѕРІР°С‚СЊ description РІ Р±СѓС„РµСЂ РѕР±РјРµРЅР°">Description</b> <span ${(descr.length < 50 || descr.length > 250) ? "class='red'" : ''}>(${descr.length}): </span>${descr}</p>`;
+        alertStr += `<p><b class="link_sim" title="Скопировать description в буфер обмена">Description</b> <span ${(descr.length < 50 || descr.length > 250) ? "class='red'" : ''}>(${descr.length}): </span>${descr}</p>`;
       } else {
-        alertStr += '<p><b class="red">Description: РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚</b></p>';
+        alertStr += '<p><b class="red">Description: отсутствует</b></p>';
       }
     } else {
-      alertStr += '<p><b class="red">Description: РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚</b></p>';
+      alertStr += '<p><b class="red">Description: отсутствует</b></p>';
     }
 
     if (keyw) {
@@ -223,7 +222,7 @@
           maxCommentLen = comment[i].length - 7;
         }
       }
-      alertStr += `<p><b>HTML РєРѕРјРјРµРЅС‚Р°СЂРёРё:</b> <span title="РљРѕР»РёС‡РµСЃС‚РІРѕ HTML РєРѕРјРјРµРЅС‚Р°СЂРёРµРІ">${comment.length}</span> | <span title="РћР±СЉРµРј HTML РєРѕРјРјРµРЅС‚Р°СЂРёРµРІ (СЃРёРјРІРѕР»РѕРІ)">${commentLen}</span> | <span title="Р”Р»РёРЅРЅР° РЅР°РёР±РѕР»СЊС€РµРіРѕ РєРѕРјРјРµРЅС‚Р°СЂРёСЏ">${maxCommentLen}</span></p>`;
+      alertStr += `<p><b>HTML комментарии:</b> <span title="Количество HTML комментариев">${comment.length}</span> | <span title="Объем HTML комментариев (символов)">${commentLen}</span> | <span title="Длинна наибольшего комментария">${maxCommentLen}</span></p>`;
     }
 
     if (script && script.length > 0) {
@@ -231,7 +230,7 @@
       for (let i = 0; i < script.length; i += 1) {
         scriptLen += script[i].textContent.length;
       }
-      alertStr += `<p><b>JS СЃРєСЂРёРїС‚С‹:</b> <span title="РљРѕР»РёС‡РµСЃС‚РІРѕ РІРЅСѓС‚СЂРµРЅРЅРёС… JS">${script.length}</span> | <span title="РћР±СЉРµРј JS РєРѕРґР° (СЃРёРјРІРѕР»РѕРІ)">${scriptLen}</span></p>`;
+      alertStr += `<p><b>JS скрипты:</b> <span title="Количество внутренних JS">${script.length}</span> | <span title="Объем JS кода (символов)">${scriptLen}</span></p>`;
     }
 
     const linksTempArr = [];
@@ -248,11 +247,11 @@
       if (location.hostname === links[i].hostname) {
         internalLinksCnt += 1;
         linksTempArr[lh] = true;
-        internalLinks += `<li><a href="${lh}" target="_blank">${l}</a>${(links[i].rel.indexOf('nofollow') + 1) ? '&nbsp;&nbsp; вЂ” &nbsp;&nbsp;<b style="text-decoration:underline;">nofollow</b>' : ''}</li>`;
+        internalLinks += `<li><a href="${lh}" target="_blank">${l}</a>${(links[i].rel.indexOf('nofollow') + 1) ? '&nbsp;&nbsp; — &nbsp;&nbsp;<b style="text-decoration:underline;">nofollow</b>' : ''}</li>`;
       } else if (lh.substr(0, 4) === 'http') {
         externalLinksCnt += 1;
         linksTempArr[lh] = true;
-        externalLinks += `<li><a href="${lh}" target="_blank">${l}</a>${(links[i].rel.indexOf('nofollow') + 1) ? '&nbsp;&nbsp; вЂ” &nbsp;&nbsp;<b style="text-decoration:underline;">nofollow</b>' : ''}</li>`;
+        externalLinks += `<li><a href="${lh}" target="_blank">${l}</a>${(links[i].rel.indexOf('nofollow') + 1) ? '&nbsp;&nbsp; — &nbsp;&nbsp;<b style="text-decoration:underline;">nofollow</b>' : ''}</li>`;
       }
     }
 
@@ -260,7 +259,7 @@
       if (img[i].alt && img[i].alt !== '') {
         altCnt += 1;
         altStrCnt += img[i].alt.length;
-        altTitle += `<li><b>alt</b> вЂ” ${img[i].alt}</li>`;
+        altTitle += `<li><b>alt</b> — ${img[i].alt}</li>`;
       }
     }
 
@@ -268,11 +267,11 @@
       if (titleAttr[i].title && titleAttr[i].title !== '') {
         altCnt += 1;
         altStrCnt += titleAttr[i].title.length;
-        altTitle += `<li><b>title</b> вЂ” ${titleAttr[i].title}</li>`;
+        altTitle += `<li><b>title</b> — ${titleAttr[i].title}</li>`;
       }
     }
-    alertStr += `<p><b>alt + title:</b> <span title="РћР±СЉРµРј Р°С‚СЂРёР±СѓС‚РѕРІ a[alt] title (СЃРёРјРІРѕР»РѕРІ)">${altStrCnt}</span></p>`;
-    alertStr += `<p><b>РћР±СЉРµРј С‚РµРєСЃС‚Р°:</b> <span title="РЎРёРјРІРѕР»РѕРІ Р±РµР· РїСЂРѕР±РµР»РѕРІ">${bodyText.replace(/\s/gi, '').length}</span> | <span title="РЎРёРјРІРѕР»РѕРІ СЃ РїСЂРѕР±РµР»Р°РјРё">${bodyText.length}</span></p>`;
+    alertStr += `<p><b>alt + title:</b> <span title="Объем атрибутов a[alt] title (символов)">${altStrCnt}</span></p>`;
+    alertStr += `<p><b>Объем текста:</b> <span title="Символов без пробелов">${bodyText.replace(/\s/gi, '').length}</span> | <span title="Символов с пробелами">${bodyText.length}</span></p>`;
 
 
     for (let i = 0; i < hd.length; i += 1) {
@@ -284,7 +283,7 @@
     openLinks += `<b class="openLinksB" data="pxinternallinks">Internal Links (${internalLinksCnt})</b>&nbsp;&nbsp;|&nbsp;&nbsp;`;
     openLinks += `<b class="openLinksB" data="pxalttitlelinks">Img alt/title (${altCnt})</b>&nbsp;&nbsp;|&nbsp;&nbsp;`;
     openLinks += `<b class="openLinksB" data="pxh16links">H1-H6 ${(hErr) ? `<span class="red">(${hd.length})` : `(${hd.length})`}</b>&nbsp;&nbsp;|&nbsp;&nbsp;`;
-    openLinks += '<b class="openLinksB" data="pxtext">РўРµРєСЃС‚</b>';
+    openLinks += '<b class="openLinksB" data="pxtext">Текст</b>';
     openLinks += '</p>';
 
     const topBS = document.createElement('style');
