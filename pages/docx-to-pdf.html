@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOCX to PDF Converter</title>
+</head>
+<body>
+    <input type="file" id="docxFileInput" accept=".docx">
+    <button onclick="convertToPDF()">Convert to PDF</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.5.1/mammoth.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <script>
+        function convertToPDF() {
+            const fileInput = document.getElementById('docxFileInput');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert('Please select a DOCX file.');
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = function(event) {
+                const arrayBuffer = event.target.result;
+
+                mammoth.convertToHtml({ arrayBuffer: arrayBuffer })
+                    .then(function(result) {
+                        const html = result.value;
+
+                        // Convert HTML to PDF
+                        const opt = {
+                            margin:       1,
+                            filename:     'converted_pdf.pdf',
+                            image:        { type: 'jpeg', quality: 0.98 },
+                            html2canvas:  { scale: 2 },
+                            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+                        };
+
+                        html2pdf().from(html).set(opt).save();
+                    })
+                    .catch(function(err) {
+                        console.error(err);
+                        alert('Failed to convert DOCX to PDF.');
+                    });
+            };
+
+            reader.onerror = function() {
+                alert('Error occurred while reading the file.');
+            };
+
+            reader.readAsArrayBuffer(file);
+        }
+    </script>
+</body>
+</html>
