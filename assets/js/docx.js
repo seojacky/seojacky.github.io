@@ -170,3 +170,18 @@ function docx(file) { 'use strict'; // v1.0.1
 	}
 	return result;
 }
+//added 27 april 2024
+function docxToPdf(zip) {
+  'use strict';
+  var result, processTime;
+
+  // Конвертация содержимого DOCX в HTML
+  processTime = Date.now();
+  const content = convertContent(zip);
+  result = {
+    DOM: content,
+    processTime: Date.now() - processTime
+  };
+
+  return result;
+}
