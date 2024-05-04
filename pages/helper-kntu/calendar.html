@@ -5,65 +5,119 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>University Calendar</title>
     <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
+        .calendar-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        th, td {
+        .week-row {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .week-number {
+            margin-right: 10px;
+            font-weight: bold;
+            padding: 5px 1px; /* додано padding */
+        }
+
+        .date-square {
+            width: 30px;
+            height: 30px;
             border: 1px solid #dddddd;
-            text-align: center;
-            padding: 8px;
-        }
-
-        th {
-            background-color: #f2f2f2;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 5px;
+            font-size: 14px;
         }
 
         .current-week {
             font-weight: bold;
             background-color: #ffffcc;
         }
+
+        .date-current {
+            background-color: #ffcccb;
+        }
+
+        .month-label {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .workdays {
+            border: 1px solid black; /* додано стиль границі */
+        }
     </style>
 </head>
 <body>
 
-<h2>University Calendar</h2>
+<div class="calendar-container">
+    <h2>University Calendar</h2>
 
-<table>
-    <thead>
-        <tr>
-            <th>Номер тижня</th>
-            <th>Дні тижня</th>
-        </tr>
-    </thead>
-    <tbody id="calendar-body">
+    <div id="calendar-body">
         <!-- Тут буде згенерований календар -->
-    </tbody>
-</table>
+    </div>
+</div>
 
 <script>
     function generateCalendar() {
-        var startDate = new Date('2023-09-04');
-        var endDate = new Date('2024-08-26');
+        var startDate = new Date('2023-09-04'); // Починаємо з понеділка
+        var endDate = new Date('2024-08-26'); // Закінчуємо в неділю
         var today = new Date();
-        var tableBody = document.getElementById('calendar-body');
-        var row;
+        var calendarBody = document.getElementById('calendar-body');
         var currentWeekRow = null;
+        var currentMonth = null;
+
+        while (startDate.getDay() !== 1) { // Перевіряємо, чи перше число не після понеділка
+            startDate.setDate(startDate.getDate() - 1);
+        }
 
         for (var i = 1; startDate <= endDate; i++) {
-            row = tableBody.insertRow();
-            row.insertCell(0).textContent = i;
-            var endDateOfWeek = new Date(startDate);
-            endDateOfWeek.setDate(startDate.getDate() + 6);
-            var dateString = startDate.toLocaleDateString() + ' - ' + endDateOfWeek.toLocaleDateString();
-            row.insertCell(1).textContent = dateString;
-
-            if (startDate <= today && today <= endDateOfWeek) {
-                row.classList.add('current-week');
-                currentWeekRow = row;
+            var month = startDate.getMonth();
+            var year = startDate.getFullYear();
+            var monthLabel = getMonthName(month) + ', ' + year; // Додаємо рік до назви місяця
+            if (monthLabel !== currentMonth) {
+                var monthLabelDiv = document.createElement('div');
+                monthLabelDiv.classList.add('month-label');
+                monthLabelDiv.textContent = monthLabel;
+                calendarBody.appendChild(monthLabelDiv);
+                currentMonth = monthLabel;
             }
 
+            var weekDiv = document.createElement('div');
+            weekDiv.classList.add('week-row');
+
+            var weekNumberSpan = document.createElement('span');
+            weekNumberSpan.classList.add('week-number');
+            weekNumberSpan.textContent = i;
+            weekDiv.appendChild(weekNumberSpan);
+
+            var endDateOfWeek = new Date(startDate);
+            endDateOfWeek.setDate(startDate.getDate() + 6);
+            for (var d = new Date(startDate); d <= endDateOfWeek; d.setDate(d.getDate() + 1)) {
+                var dateSquare = document.createElement('div');
+                dateSquare.classList.add('date-square');
+                if (d.toDateString() === today.toDateString()) {
+                    dateSquare.classList.add('date-current');
+                }
+                dateSquare.textContent = d.getDate();
+                if (d.getDay() !== 0 && d.getDay() !== 6) { // Перевірка на робочий день
+                    dateSquare.classList.add('workdays');
+                }
+                weekDiv.appendChild(dateSquare);
+            }
+
+            if (startDate <= today && today <= endDateOfWeek) {
+                weekDiv.classList.add('current-week');
+                currentWeekRow = weekDiv;
+            }
+
+            calendarBody.appendChild(weekDiv);
             startDate.setDate(startDate.getDate() + 7);
         }
 
@@ -73,9 +127,14 @@
         }
     }
 
+    // Функція для отримання назви місяця за його номером
+    function getMonthName(month) {
+        var months = ['Січень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень', 'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень'];
+        return months[month];
+    }
+
     generateCalendar();
 </script>
 
 </body>
 </html>
-
