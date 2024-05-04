@@ -1,1 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Calendar</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .current-week {
+            font-weight: bold;
+            background-color: #ffffcc;
+        }
+    </style>
+</head>
+<body>
+
+<h2>University Calendar</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Номер тижня</th>
+            <th>Дні тижня</th>
+        </tr>
+    </thead>
+    <tbody id="calendar-body">
+        <!-- Тут буде згенерований календар -->
+    </tbody>
+</table>
+
+<script>
+    function generateCalendar() {
+        var startDate = new Date('2023-09-04');
+        var endDate = new Date('2024-08-26');
+        var today = new Date();
+        var tableBody = document.getElementById('calendar-body');
+        var row;
+        var currentWeekRow = null;
+
+        for (var i = 1; startDate <= endDate; i++) {
+            row = tableBody.insertRow();
+            row.insertCell(0).textContent = i;
+            var endDateOfWeek = new Date(startDate);
+            endDateOfWeek.setDate(startDate.getDate() + 6);
+            var dateString = startDate.toLocaleDateString() + ' - ' + endDateOfWeek.toLocaleDateString();
+            row.insertCell(1).textContent = dateString;
+
+            if (startDate <= today && today <= endDateOfWeek) {
+                row.classList.add('current-week');
+                currentWeekRow = row;
+            }
+
+            startDate.setDate(startDate.getDate() + 7);
+        }
+
+        // Scroll to current week
+        if (currentWeekRow) {
+            currentWeekRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    generateCalendar();
+</script>
+
+</body>
+</html>
 
