@@ -34,6 +34,10 @@
             font-size: 14px;
         }
 
+        .work-day {
+            border: 1px solid black;
+        }
+
         .current-week {
             font-weight: bold;
             background-color: #ffffcc;
@@ -99,6 +103,9 @@
             for (var d = new Date(startDate); d <= endDateOfWeek; d.setDate(d.getDate() + 1)) {
                 var dateSquare = document.createElement('div');
                 dateSquare.classList.add('date-square');
+                if (d.getDay() >= 1 && d.getDay() <= 5) { // Понеділок (1) - П'ятниця (5)
+                    dateSquare.classList.add('work-day');
+                }
                 if (d.toDateString() === today.toDateString()) {
                     dateSquare.classList.add('date-current');
                 }
