@@ -135,6 +135,10 @@
     }
 
     generateCalendar();
+
+    if (currentWeekRow) {
+            currentWeekRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
 </script>
 
 </body>
