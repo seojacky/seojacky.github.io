@@ -95,6 +95,7 @@
 
             var endDateOfWeek = new Date(startDate);
             endDateOfWeek.setDate(startDate.getDate() + 6);
+            endDateOfWeek.setHours(23, 59, 59, 999); // Встановлюємо час на кінець дня
             for (var d = new Date(startDate); d <= endDateOfWeek; d.setDate(d.getDate() + 1)) {
                 var dateSquare = document.createElement('div');
                 dateSquare.classList.add('date-square');
