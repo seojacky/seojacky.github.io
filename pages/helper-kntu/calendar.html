@@ -1,5 +1,6 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,6 +33,17 @@
             align-items: center;
             margin-right: 5px;
             font-size: 14px;
+        }
+        
+        .week-day {
+            width: 30px;
+            height: 20px;            
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 6px;
+            font-size: 14px;
+          
         }
 
         .work-day {
@@ -87,6 +99,12 @@
                 monthLabelDiv.textContent = monthLabel;
                 calendarBody.appendChild(monthLabelDiv);
                 currentMonth = monthLabel;
+
+var dayLabelDiv = document.createElement('div');
+               dayLabelDiv.classList.add('day-label');
+                dayLabelDiv.innerHTML = '<div class="week-row" style="margin-bottom: 0;"><span class="week-number">&nbsp;&nbsp;&nbsp;&nbsp;</span><div class="week-day">Пн</div><div class="week-day">Вт</div><div class="week-day">Ср</div><div class="week-day">Чт</div><div class="week-day">Пт</div><div class="week-day">Сб</div><div class="week-day">Нд</div></div>';
+                calendarBody.appendChild(dayLabelDiv);
+                /*currentMonth = monthLabel;*/
             }
 
             var weekDiv = document.createElement('div');
