@@ -178,6 +178,12 @@
 				}
 			}
 		</style>
+		<script>
+        const birthYear = 1979; 
+        const currentYear = new Date().getFullYear();
+        const age = currentYear - birthYear;
+        document.getElementById('age').textContent = age;
+    </script>
 	</head>
 	<body>	
 		<div class="page">
@@ -191,7 +197,7 @@
 						<h1>Eugen Kalinsky</h1>
 						<p>Hi, I am Eugen — a seo specialist, WordPress developer, Plugin Developer.</p>
 						<ul class="about">
-							<li><b>Age:</b> 41</li>
+							<span id="age">0</span>
 							<li><b>Country:</b> Ukraine</li>							
 							<li><b>Employment type:</b> Full time</li>
 							<li><b>Job Location type:</b> Telecommute</li>
