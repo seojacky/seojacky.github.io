@@ -188,11 +188,41 @@
 .content-description .note p {
     margin: 0;
 }
+.site-link {
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.site-link a {
+    display: inline-flex;
+    align-items: center;
+    color: #666;
+    text-decoration: none;
+    padding: 5px 10px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.site-link a:hover {
+    background: #e9ecef;
+    color: #333;
+}
+
+.site-link img {
+    margin-right: 8px;
+}
     </style>
 </head>
 <body>
 
     <div class="container">
+	    <div class="site-link">
+        <a href="https://seojacky.github.io/">
+            <img src="https://seojacky.github.io/favicon.ico" width="16" height="16" alt="SeoJacky Homepage" />
+            <span>seojacky.github.io</span>
+        </a>
+    </div>
         <div class="header">Free Proxies List - Parser and Checker</div>
         <div class="button-group">
             <button id="parse">Parse Free Proxies</button>
