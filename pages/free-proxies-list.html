@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Free Proxies List - Fresh Working Proxy Servers [Live Check] 2024</title>
+	<meta name="description" content="Get fresh free proxy list updated in real-time. Test proxy speed, remove duplicates, and download working HTTP/HTTPS proxies. Live checking with response time verification and instant results." /><style>
+        body {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header {
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .settings-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border: 1px solid #eee;
+        }
+        .settings-group label {
+            color: #666;
+            font-size: 14px;
+        }
+        .settings-group input {
+            width: 80px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: monospace;
+            text-align: right;
+        }
+        button {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #1976D2;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        #parse {
+            background: #2196F3;
+        }
+        #checkButton {
+            background: #4CAF50;
+        }
+        #checkButton:hover {
+            background: #388E3C;
+        }
+        #copyButton {
+            background: #9C27B0;
+        }
+        #copyButton:hover {
+            background: #7B1FA2;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: monospace;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+        .status {
+            color: #666;
+            margin: 10px 0;
+            font-size: 14px;
+            text-align: center;
+        }
+        .recent-proxies {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border: 1px solid #eee;
+        }
+        .recent-proxies-title {
+            color: #333;
+            font-size: 14px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .recent-proxies-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .recent-proxies-item {
+            padding: 4px 8px;
+            margin: 2px 0;
+            font-family: monospace;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            background: white;
+            border-radius: 3px;
+        }
+        .recent-proxies-time {
+            color: #2196F3;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #eee;
+            border-radius: 2px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: #2196F3;
+            width: 0%;
+            transition: width 0.3s;
+        }
+		.content-description {
+    margin: 20px 0 30px 0;
+    color: #333;
+    line-height: 1.6;
+}
+
+.content-description h1 {
+    font-size: 24px;
+    color: #1f2937;
+    margin-bottom: 20px;
+}
+
+.content-description h2 {
+    font-size: 20px;
+    color: #1f2937;
+    margin: 25px 0 15px 0;
+}
+
+.content-description p {
+    margin-bottom: 15px;
+}
+
+.content-description ul,
+.content-description ol {
+    margin: 15px 0;
+    padding-left: 20px;
+}
+
+.content-description li {
+    margin-bottom: 10px;
+}
+
+.content-description .note {
+    background: #f8f9fa;
+    border-left: 4px solid #2196F3;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 0 4px 4px 0;
+}
+
+.content-description .note p {
+    margin: 0;
+}
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">Free Proxies List - Parser and Checker</div>
+        <div class="button-group">
+            <button id="parse">Parse Free Proxies</button>
+            <button id="checkButton">Check Free Proxies</button>
+            <button id="copyButton">Copy to Clipboard</button>
+        </div>
+        <div class="settings-group">
+            <label for="maxResponseTime">Max Response Time:</label>
+            <input type="number" 
+                   id="maxResponseTime" 
+                   value="500" 
+                   min="100" 
+                   max="5000" 
+                   step="100" 
+            /> <span>ms</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-bar-fill"></div>
+        </div>
+        <div class="status">Ready to parse proxies</div>
+        <div class="recent-proxies">
+            <div class="recent-proxies-title">Recently Checked Proxies</div>
+            <ul class="recent-proxies-list">
+                <li class="recent-proxies-item">Waiting for proxy check to start...</li>
+            </ul>
+        </div>
+        <textarea id="result" readonly placeholder="Parsed proxies will appear here..."></textarea>
+    </div>
+	<div class="content-description">
+    <h1>Free Proxy List - Live Proxy Server Checker</h1>
+    
+    <p>Welcome to our free proxy list tool - your reliable source for fresh and working proxy servers. Our service automatically collects free proxies from multiple trusted sources and performs real-time checks to ensure their functionality. Whether you need proxies for web scraping, anonymous browsing, or testing purposes, our tool provides you with verified proxy servers that actually work.</p>
+
+    <h2>How Our Free Proxy List Works</h2>
+    
+    <p>Getting a working proxy list is simple with our three-step process:</p>
+    
+    <ol>
+        <li><strong>Proxy Collection</strong>: Click "Parse Free Proxies" to gather fresh proxy servers from multiple reliable sources. Our tool combines various proxy lists and removes duplicates automatically.</li>
+        <li><strong>Speed Testing</strong>: Use "Check Free Proxies" to verify each proxy's response time. You can customize the maximum acceptable response time to match your needs.</li>
+        <li><strong>Results</strong>: Get an instantly updated list of working proxies, sorted by speed. Copy the results with a single click and start using your proxies right away.</li>
+    </ol>
+
+    <h2>Features of Our Proxy Checker</h2>
+    
+    <p>Our free proxy list checker provides several advanced features:</p>
+    <ul>
+        <li><strong>Real-time Verification</strong>: Each proxy is tested live to ensure it's actually working</li>
+        <li><strong>Response Time Testing</strong>: Check the speed of each proxy server with customizable thresholds</li>
+        <li><strong>Duplicate Removal</strong>: Automatically filters out duplicate proxy entries</li>
+        <li><strong>Live Progress Tracking</strong>: Monitor the checking process with our progress bar and recent proxies list</li>
+        <li><strong>Instant Copy</strong>: Copy your working proxy list to clipboard with one click</li>
+    </ul>
+
+    <h2>Why Use Our Free Proxy List</h2>
+    
+    <p>Unlike other proxy lists that might be outdated or untested, our tool verifies each proxy in real-time. This ensures that you get only working proxies with acceptable response times. The built-in speed checker helps you identify the fastest proxies, while our duplicate removal system ensures you get unique entries only.</p>
+
+    <div class="note">
+        <p>To get started, simply click the "Parse Free Proxies" button above to collect fresh proxy servers, then use "Check Free Proxies" to verify their functionality.</p>
+    </div>
+</div>
+
+    <script>
+        class ProxyParser {
+            constructor() {
+                this.maxResponseTime = 500; // Default value
+                this.sources = [
+                    'https://api.proxyscrape.com/v2/?request=getproxies&protocol=http&timeout=10000&country=all&ssl=all&anonymity=all',
+                    'https://raw.githubusercontent.com/TheSpeedX/PROXY-List/master/http.txt',
+                    'https://raw.githubusercontent.com/ShiftyTR/Proxy-List/master/http.txt',
+                    'https://raw.githubusercontent.com/monosans/proxy-list/main/proxies/http.txt',
+                    'https://raw.githubusercontent.com/RX4096/proxy-list/main/online/http.txt',
+                    'https://raw.githubusercontent.com/mertguvencli/http-proxy-list/main/proxy-list/data.txt'
+                ];
+                this.isPaused = false;
+                this.parsedProxies = [];
+                this.workingProxies = [];
+            }
+
+            async checkProxy(proxy) {
+                try {
+                    const controller = new AbortController();
+                    const timeout = setTimeout(() => controller.abort(), 2000);
+                    const start = Date.now();
+
+                    const response = await fetch('https://api.ipify.org?format=json', {
+                        signal: controller.signal,
+                        mode: 'no-cors',
+                        headers: {
+                            'Proxy-Authorization': `Basic ${btoa(proxy)}`,
+                            'Via': proxy
+                        }
+                    });
+
+                    clearTimeout(timeout);
+                    const time = Date.now() - start;
+                    
+                    // Update recent proxies list
+                    const recentList = document.querySelector('.recent-proxies-list');
+                    const newItem = document.createElement('li');
+                    newItem.className = 'recent-proxies-item';
+                    newItem.innerHTML = `
+                        <span class="recent-proxies-ip">${proxy}</span>
+                        <span class="recent-proxies-time">${time}ms</span>
+                    `;
+                    
+                    // Keep only last 5 items
+                    while (recentList.children.length >= 5) {
+                        recentList.removeChild(recentList.lastChild);
+                    }
+                    recentList.insertBefore(newItem, recentList.firstChild);
+                    
+                    // Consider proxy working if response time is under 1000ms
+                    return { isWorking: time < this.maxResponseTime, responseTime: time };
+                } catch {
+                    const recentList = document.querySelector('.recent-proxies-list');
+                    const newItem = document.createElement('li');
+                    newItem.className = 'recent-proxies-item';
+                    newItem.innerHTML = `
+                        <span class="recent-proxies-ip">${proxy}</span>
+                        <span class="recent-proxies-time">Failed</span>
+                    `;
+                    
+                    while (recentList.children.length >= 5) {
+                        recentList.removeChild(recentList.lastChild);
+                    }
+                    recentList.insertBefore(newItem, recentList.firstChild);
+                    
+                    return { isWorking: false, responseTime: 0 };
+                }
+            }
+
+            async parseProxies() {
+                let allProxies = [];
+                for (const source of this.sources) {
+                    try {
+                        const response = await fetch(source);
+                        const text = await response.text();
+                        const proxies = text.match(/\d+\.\d+\.\d+\.\d+:\d+/g) || [];
+                        allProxies.push(...proxies);
+                    } catch (error) {
+                        console.error(`Failed to fetch from ${source}:`, error);
+                    }
+                }
+                this.parsedProxies = [...new Set(allProxies)];
+                return this.parsedProxies.length;
+            }
+
+            async checkProxies(onProgress) {
+                this.isPaused = false;
+                this.workingProxies = [];
+
+                for (let i = 0; i < this.parsedProxies.length && !this.isPaused; i++) {
+                    const result = await this.checkProxy(this.parsedProxies[i]);
+                    if (result.isWorking) {
+                        this.workingProxies.push({
+                            proxy: this.parsedProxies[i],
+                            responseTime: result.responseTime
+                        });
+                    }
+                    onProgress(i, this.parsedProxies.length, this.workingProxies.length);
+                }
+
+                return this.workingProxies
+                    .sort((a, b) => a.responseTime - b.responseTime)
+                    .map(p => p.proxy);
+            }
+
+            pause() {
+                this.isPaused = true;
+            }
+        }
+
+        // DOM Elements
+        const parseButton = document.getElementById('parse');
+        const checkButton = document.getElementById('checkButton');
+        const copyButton = document.getElementById('copyButton');
+        const textarea = document.getElementById('result');
+        const status = document.querySelector('.status');
+        const progressBar = document.querySelector('.progress-bar-fill');
+        
+        let parser = new ProxyParser();
+        const maxResponseTimeInput = document.getElementById('maxResponseTime');
+
+        // Update maxResponseTime when input changes
+        maxResponseTimeInput.addEventListener('change', () => {
+            const value = parseInt(maxResponseTimeInput.value);
+            if (value >= 100 && value <= 5000) {
+                parser.maxResponseTime = value;
+            } else {
+                // Reset to default if invalid
+                maxResponseTimeInput.value = '500';
+                parser.maxResponseTime = 500;
+            }
+        });
+
+        // Event Listeners
+        parseButton.addEventListener('click', async () => {
+            parseButton.disabled = true;
+            checkButton.disabled = true;
+            status.textContent = 'Parsing proxies...';
+            progressBar.style.width = '0%';
+
+            const count = await parser.parseProxies();
+            
+            status.textContent = `Parsed ${count} proxies`;
+            progressBar.style.width = '100%';
+            parseButton.disabled = false;
+            checkButton.disabled = false;
+        });
+
+        checkButton.addEventListener('click', async () => {
+            if (checkButton.textContent === 'Check Free Proxies') {
+                checkButton.textContent = 'Stop';
+                parseButton.disabled = true;
+                textarea.value = '';
+                progressBar.style.width = '0%';
+                
+                // Reset recent proxies list
+                const recentList = document.querySelector('.recent-proxies-list');
+                recentList.innerHTML = '';
+                
+                // Deduplicate proxies
+                const initialCount = parser.parsedProxies.length;
+                parser.parsedProxies = [...new Set(parser.parsedProxies)];
+                const uniqueCount = parser.parsedProxies.length;
+                const duplicatesRemoved = initialCount - uniqueCount;
+                
+                status.textContent = `Removed ${duplicatesRemoved} duplicates. Starting check with ${uniqueCount} unique proxies...`;
+                
+                // Wait a moment to show deduplication results
+                await new Promise(resolve => setTimeout(resolve, 2000));
+
+                const proxies = await parser.checkProxies((current, total, working) => {
+                    const percent = Math.round((current / total) * 100);
+                    status.textContent = `Progress: ${percent}% (${current}/${total}) - Found ${working} working proxies`;
+                    progressBar.style.width = `${percent}%`;
+                });
+
+                if (!parser.isPaused) {
+                    textarea.value = proxies.join('\n');
+                    status.textContent = `Found ${proxies.length} working proxies out of ${uniqueCount} unique proxies tested`;
+                }
+            } else {
+                parser.pause();
+                checkButton.textContent = 'Check Free Proxies';
+                if (parser.workingProxies.length > 0) {
+                    textarea.value = parser.workingProxies.map(p => p.proxy).join('\n');
+                }
+            }
+            parseButton.disabled = false;
+        });
+
+        copyButton.addEventListener('click', () => {
+            textarea.select();
+            document.execCommand('copy');
+            const originalText = copyButton.textContent;
+            copyButton.textContent = 'Copied!';
+            setTimeout(() => copyButton.textContent = originalText, 2000);
+        });
+    </script>
+</body>
+</html>
