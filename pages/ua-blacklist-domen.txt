@@ -22,3 +22,4 @@ yandex.ru
 yandex.com.tr
 yastatic.net
 yoomoney.ru
+webnames.ru
