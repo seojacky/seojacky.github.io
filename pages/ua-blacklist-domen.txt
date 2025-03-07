@@ -23,6 +23,7 @@ vk.com
 webnames.ru
 ya.ru
 yandex.com
+yandex.net
 yandex.com.tr
 yandex.ru
 yastatic.net
