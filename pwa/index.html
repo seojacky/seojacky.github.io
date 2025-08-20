@@ -130,7 +130,43 @@
         <button id="install-btn" class="mt-2 bg-indigo-600 text-white px-4 py-2 rounded-md hidden">
             <i class="fas fa-download mr-2"></i>Установить приложение
         </button>
+        <button id="ios-install-btn" class="mt-2 bg-blue-600 text-white px-4 py-2 rounded-md hidden">
+            <i class="fab fa-apple mr-2"></i>Установить на iPhone
+        </button>
     </footer>
+
+    <!-- iOS Install Modal -->
+    <div id="ios-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-lg max-w-md w-full p-6">
+            <div class="text-center">
+                <div class="text-4xl mb-4">📱</div>
+                <h3 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">Установить на iPhone</h3>
+                <div class="text-left space-y-3 text-gray-700 dark:text-gray-300">
+                    <div class="flex items-start space-x-3">
+                        <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">1</span>
+                        <p>Нажмите кнопку <strong>"Поделиться"</strong> <i class="fas fa-share text-blue-600"></i> внизу экрана Safari</p>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">2</span>
+                        <p>Прокрутите вниз и выберите <strong>"На экран «Домой»"</strong> <i class="fas fa-plus-square text-gray-600"></i></p>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">3</span>
+                        <p>Нажмите <strong>"Добавить"</strong> для завершения установки</p>
+                    </div>
+                </div>
+                <div class="mt-6 p-3 bg-blue-50 dark:bg-blue-900 rounded-lg">
+                    <p class="text-sm text-blue-800 dark:text-blue-200">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        После установки приложение появится на домашнем экране как обычное приложение!
+                    </p>
+                </div>
+                <button id="close-ios-modal" class="mt-4 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 px-6 py-2 rounded-md transition">
+                    Понятно
+                </button>
+            </div>
+        </div>
+    </div>
 
     <script>
         // Расписание звонков
@@ -180,6 +216,9 @@
         const scheduleTypeSelect = document.getElementById('schedule-type');
         const weekTypeSelect = document.getElementById('week-type');
         const installBtn = document.getElementById('install-btn');
+        const iosInstallBtn = document.getElementById('ios-install-btn');
+        const iosModal = document.getElementById('ios-modal');
+        const closeIosModal = document.getElementById('close-ios-modal');
 
         // Инициализация
         function init() {
@@ -329,12 +368,27 @@
         function checkPWAInstallation() {
             let deferredPrompt;
             
+            // Определяем iOS устройство
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
+                               window.navigator.standalone === true;
+            
+            // Показываем iOS кнопку если это iOS и не установлено
+            if (isIOS && !isStandalone) {
+                iosInstallBtn.classList.remove('hidden');
+            }
+            
+            // Стандартная PWA установка (Android, Desktop)
             window.addEventListener('beforeinstallprompt', (e) => {
                 e.preventDefault();
                 deferredPrompt = e;
-                installBtn.classList.remove('hidden');
+                // Показываем кнопку только если это не iOS
+                if (!isIOS) {
+                    installBtn.classList.remove('hidden');
+                }
             });
             
+            // Обработчик стандартной установки
             installBtn.addEventListener('click', async () => {
                 if (deferredPrompt) {
                     deferredPrompt.prompt();
@@ -346,8 +400,27 @@
                 }
             });
             
+            // Обработчик iOS инструкции
+            iosInstallBtn.addEventListener('click', () => {
+                iosModal.classList.remove('hidden');
+            });
+            
+            // Закрытие iOS модального окна
+            closeIosModal.addEventListener('click', () => {
+                iosModal.classList.add('hidden');
+            });
+            
+            // Закрытие по клику на фон
+            iosModal.addEventListener('click', (e) => {
+                if (e.target === iosModal) {
+                    iosModal.classList.add('hidden');
+                }
+            });
+            
+            // Скрываем кнопки после установки
             window.addEventListener('appinstalled', () => {
                 installBtn.classList.add('hidden');
+                iosInstallBtn.classList.add('hidden');
             });
         }
 
