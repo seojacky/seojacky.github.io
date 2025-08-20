@@ -6,7 +6,7 @@
     <title>Расписание звонков</title>
     <meta name="theme-color" content="#4f46e5">
     <meta name="description" content="Приложение для отображения расписания звонков с подсветкой текущей пары">
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="/pwa/manifest.json">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -364,70 +364,6 @@
 
         // Запуск приложения
         document.addEventListener('DOMContentLoaded', init);
-    </script>
-
-    <script>
-        // Манифест для PWA
-        const manifest = {
-            "name": "Расписание звонков",
-            "short_name": "Звонки",
-            "description": "Приложение для отображения расписания звонков с подсветкой текущей пары",
-            "start_url": "/pwa/",
-            "display": "standalone",
-            "background_color": "#4f46e5",
-            "theme_color": "#4f46e5",
-            "icons": [
-                {
-                    "src": "icons/icon-72x72.png",
-                    "sizes": "72x72",
-                    "type": "image/png"
-                },
-                {
-                    "src": "icons/icon-96x96.png",
-                    "sizes": "96x96",
-                    "type": "image/png"
-                },
-                {
-                    "src": "icons/icon-128x128.png",
-                    "sizes": "128x128",
-                    "type": "image/png"
-                },
-                {
-                    "src": "icons/icon-144x144.png",
-                    "sizes": "144x144",
-                    "type": "image/png"
-                },
-                {
-                    "src": "icons/icon-152x152.png",
-                    "sizes": "152x152",
-                    "type": "image/png"
-                },
-                {
-                    "src": "icons/icon-192x192.png",
-                    "sizes": "192x192",
-                    "type": "image/png"
-                },
-                {
-                    "src": "icons/icon-384x384.png",
-                    "sizes": "384x384",
-                    "type": "image/png"
-                },
-                {
-                    "src": "icons/icon-512x512.png",
-                    "sizes": "512x512",
-                    "type": "image/png"
-                }
-            ]
-        };
-
-        // Создаем манифест динамически
-        const blob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
-        const manifestURL = URL.createObjectURL(blob);
-        
-        const link = document.createElement('link');
-        link.rel = 'manifest';
-        link.href = manifestURL;
-        document.head.appendChild(link);
     </script>
 </body>
 </html>
