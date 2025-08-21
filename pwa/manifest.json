@@ -13,7 +13,7 @@
   "screenshots": [
     {
       "src": "/pwa/screenshots/screenshot-mobile.png",
-      "sizes": "390x844",
+      "sizes": "488x1055",
       "type": "image/png",
       "form_factor": "narrow",
       "label": "Розклад дзвінків на мобільному"
