@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Расписание звонков</title>
+    <title>Розклад дзвінків</title>
     <meta name="theme-color" content="#4f46e5">
-    <meta name="description" content="Приложение для отображения расписания звонков с подсветкой текущей пары">
+    <meta name="description" content="Додаток для відображення розкладу дзвінків з підсвіткою поточної пари">
     <link rel="manifest" href="/pwa/manifest.json">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -44,6 +44,11 @@
             color: white;
         }
         
+        .current-break {
+            background-color: #f59e0b;
+            color: white;
+        }
+        
         .pulse {
             animation: pulse 2s infinite;
         }
@@ -66,7 +71,7 @@
         <div class="container mx-auto flex justify-between items-center">
             <h1 class="text-2xl font-bold flex items-center">
                 <i class="fas fa-bell mr-2"></i>
-                Расписание звонков
+                Розклад дзвінків
             </h1>
             <div id="current-time" class="text-lg font-mono bg-indigo-700 px-3 py-1 rounded-md"></div>
         </div>
@@ -76,67 +81,34 @@
         <!-- Install buttons section -->
         <div class="mb-4 flex justify-center space-x-3">
             <button id="install-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md transition hidden">
-                <i class="fas fa-download mr-2"></i>Установить приложение
+                <i class="fas fa-download mr-2"></i>Встановити додаток
             </button>
             <button id="ios-install-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition hidden">
-                <i class="fab fa-apple mr-2"></i>Установить на iPhone
+                <i class="fab fa-apple mr-2"></i>Встановити на iPhone
             </button>
         </div>
 
-        <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center">
-            <div class="mb-4 sm:mb-0">
-                <h2 class="text-xl font-semibold">Киевское время</h2>
-                <p class="text-gray-500 dark:text-gray-400">Сегодня: <span id="current-date"></span></p>
-            </div>
-            <div class="flex space-x-2">
-                <button id="prev-day" class="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-md transition">
-                    <i class="fas fa-chevron-left mr-1"></i> Назад
-                </button>
-                <button id="next-day" class="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-md transition">
-                    Вперёд <i class="fas fa-chevron-right ml-1"></i>
-                </button>
-                <button id="today-btn" class="bg-indigo-100 dark:bg-indigo-900 hover:bg-indigo-200 dark:hover:bg-indigo-800 text-indigo-800 dark:text-indigo-200 px-4 py-2 rounded-md transition">
-                    Сегодня
-                </button>
+        <div class="mb-6">
+            <div class="mb-4">
+                <h2 class="text-xl font-semibold">Розклад</h2>
+                <p class="text-gray-500 dark:text-gray-400">Сьогодні: <span id="current-date"></span></p>
             </div>
         </div>
 
         <div class="grid gap-4">
             <div class="card rounded-lg shadow-md overflow-hidden">
                 <div class="bg-indigo-100 dark:bg-indigo-900 p-3">
-                    <h3 class="text-lg font-semibold text-indigo-800 dark:text-indigo-200" id="selected-date">Сегодня</h3>
+                    <h3 class="text-lg font-semibold text-indigo-800 dark:text-indigo-200" id="selected-date">Сьогодні</h3>
                 </div>
                 <div class="divide-y divide-gray-200 dark:divide-gray-700">
-                    <!-- Расписание будет вставлено здесь -->
                     <div id="schedule-container"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="mt-8 card p-6 rounded-lg shadow-md">
-            <h3 class="text-lg font-semibold mb-4">Настройки расписания</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm font-medium mb-1">Тип недели</label>
-                    <select id="week-type" class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800">
-                        <option value="numerator">Числитель</option>
-                        <option value="denominator">Знаменатель</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium mb-1">Тип расписания</label>
-                    <select id="schedule-type" class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800">
-                        <option value="default">Стандартное</option>
-                        <option value="short">Сокращенное</option>
-                        <option value="session">Сессия</option>
-                    </select>
                 </div>
             </div>
         </div>
     </main>
 
     <footer class="bg-gray-100 dark:bg-gray-800 p-4 text-center text-gray-600 dark:text-gray-400 text-sm">
-        <p>© 2023 Расписание звонков. Киевское время.</p>
+        <p>© 2023 Розклад дзвінків. ХНТУ.</p>
     </footer>
 
     <!-- iOS Install Modal -->
@@ -144,303 +116,34 @@
         <div class="bg-white dark:bg-gray-800 rounded-lg max-w-md w-full p-6">
             <div class="text-center">
                 <div class="text-4xl mb-4">📱</div>
-                <h3 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">Установить на iPhone</h3>
+                <h3 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">Встановити на iPhone</h3>
                 <div class="text-left space-y-3 text-gray-700 dark:text-gray-300">
                     <div class="flex items-start space-x-3">
                         <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">1</span>
-                        <p>Нажмите кнопку <strong>"Поделиться"</strong> <i class="fas fa-share text-blue-600"></i> внизу экрана Safari</p>
+                        <p>Натисніть кнопку <strong>"Поділитися"</strong> <i class="fas fa-share text-blue-600"></i> внизу екрана Safari</p>
                     </div>
                     <div class="flex items-start space-x-3">
                         <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">2</span>
-                        <p>Прокрутите вниз и выберите <strong>"На экран «Домой»"</strong> <i class="fas fa-plus-square text-gray-600"></i></p>
+                        <p>Прокрутіть вниз і виберіть <strong>"На екран «Домой»"</strong> <i class="fas fa-plus-square text-gray-600"></i></p>
                     </div>
                     <div class="flex items-start space-x-3">
                         <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">3</span>
-                        <p>Нажмите <strong>"Добавить"</strong> для завершения установки</p>
+                        <p>Натисніть <strong>"Додати"</strong> для завершення встановлення</p>
                     </div>
                 </div>
                 <div class="mt-6 p-3 bg-blue-50 dark:bg-blue-900 rounded-lg">
                     <p class="text-sm text-blue-800 dark:text-blue-200">
                         <i class="fas fa-info-circle mr-1"></i>
-                        После установки приложение появится на домашнем экране как обычное приложение!
+                        Після встановлення додаток з'явиться на домашньому екрані як звичайний додаток!
                     </p>
                 </div>
                 <button id="close-ios-modal" class="mt-4 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 px-6 py-2 rounded-md transition">
-                    Понятно
+                    Зрозуміло
                 </button>
             </div>
         </div>
     </div>
 
-    <script>
-        // Расписание звонков
-        const schedules = {
-            default: [
-                { pair: 1, start: "8:30", end: "10:05", break: "10:05-10:20" },
-                { pair: 2, start: "10:20", end: "11:55", break: "11:55-12:40" },
-                { pair: 3, start: "12:40", end: "14:15", break: "14:15-14:30" },
-                { pair: 4, start: "14:30", end: "16:05", break: "16:05-16:20" },
-                { pair: 5, start: "16:20", end: "17:55", break: "17:55-18:10" },
-                { pair: 6, start: "18:10", end: "19:45" }
-            ],
-            short: [
-                { pair: 1, start: "8:30", end: "9:50", break: "9:50-10:00" },
-                { pair: 2, start: "10:00", end: "11:20", break: "11:20-11:30" },
-                { pair: 3, start: "11:30", end: "12:50", break: "12:50-13:00" },
-                { pair: 4, start: "13:00", end: "14:20", break: "14:20-14:30" },
-                { pair: 5, start: "14:30", end: "15:50", break: "15:50-16:00" },
-                { pair: 6, start: "16:00", end: "17:20" }
-            ],
-            session: [
-                { pair: 1, start: "9:00", end: "10:30", break: "10:30-10:45" },
-                { pair: 2, start: "10:45", end: "12:15", break: "12:15-13:00" },
-                { pair: 3, start: "13:00", end: "14:30", break: "14:30-14:45" },
-                { pair: 4, start: "14:45", end: "16:15" }
-            ]
-        };
-
-        // Дни недели
-        const weekDays = ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"];
-        const shortWeekDays = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
-
-        // Текущая дата
-        let currentDate = new Date();
-        let selectedDate = new Date(currentDate);
-        let currentScheduleType = "default";
-        let currentWeekType = "numerator";
-
-        // DOM элементы
-        const scheduleContainer = document.getElementById('schedule-container');
-        const currentTimeElement = document.getElementById('current-time');
-        const currentDateElement = document.getElementById('current-date');
-        const selectedDateElement = document.getElementById('selected-date');
-        const prevDayBtn = document.getElementById('prev-day');
-        const nextDayBtn = document.getElementById('next-day');
-        const todayBtn = document.getElementById('today-btn');
-        const scheduleTypeSelect = document.getElementById('schedule-type');
-        const weekTypeSelect = document.getElementById('week-type');
-        const installBtn = document.getElementById('install-btn');
-        const iosInstallBtn = document.getElementById('ios-install-btn');
-        const iosModal = document.getElementById('ios-modal');
-        const closeIosModal = document.getElementById('close-ios-modal');
-
-        // Инициализация
-        function init() {
-            updateCurrentTime();
-            updateSelectedDateDisplay();
-            renderSchedule();
-            setupEventListeners();
-            checkPWAInstallation();
-            
-            // Обновляем время каждую секунду
-            setInterval(updateCurrentTime, 1000);
-            setInterval(checkCurrentPair, 10000); // Проверяем текущую пару каждые 10 секунд
-        }
-
-        // Обновление текущего времени
-        function updateCurrentTime() {
-            const now = new Date();
-            const hours = now.getHours().toString().padStart(2, '0');
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            const seconds = now.getSeconds().toString().padStart(2, '0');
-            currentTimeElement.textContent = `${hours}:${minutes}:${seconds}`;
-            
-            // Обновляем текущую дату
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            currentDateElement.textContent = now.toLocaleDateString('ru-RU', options);
-        }
-
-        // Обновление отображения выбранной даты
-        function updateSelectedDateDisplay() {
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            
-            const selected = new Date(selectedDate);
-            selected.setHours(0, 0, 0, 0);
-            
-            if (selected.getTime() === today.getTime()) {
-                selectedDateElement.textContent = "Сегодня";
-            } else if (selected.getTime() === today.getTime() - 86400000) {
-                selectedDateElement.textContent = "Вчера";
-            } else if (selected.getTime() === today.getTime() + 86400000) {
-                selectedDateElement.textContent = "Завтра";
-            } else {
-                const dayName = weekDays[selectedDate.getDay()];
-                const dateStr = selectedDate.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
-                selectedDateElement.textContent = `${dayName}, ${dateStr}`;
-            }
-        }
-
-        // Рендер расписания
-        function renderSchedule() {
-            const schedule = schedules[currentScheduleType];
-            const isToday = isSelectedDateToday();
-            
-            let html = '';
-            
-            schedule.forEach(item => {
-                const isCurrent = isToday && isCurrentPair(item);
-                
-                html += `
-                    <div class="p-4 transition-all duration-200 ${isCurrent ? 'current pulse' : ''}">
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center">
-                                <span class="w-8 h-8 flex items-center justify-center rounded-full ${isCurrent ? 'bg-white text-indigo-600' : 'bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200'} font-semibold mr-3">
-                                    ${item.pair}
-                                </span>
-                                <div>
-                                    <p class="font-medium">${item.start} - ${item.end}</p>
-                                    ${item.break ? `<p class="text-sm text-gray-500 dark:text-gray-400">Перерыв: ${item.break}</p>` : ''}
-                                </div>
-                            </div>
-                            ${isCurrent ? '<span class="bg-white text-indigo-600 text-xs font-semibold px-2 py-1 rounded-full">Сейчас</span>' : ''}
-                        </div>
-                    </div>
-                `;
-            });
-            
-            scheduleContainer.innerHTML = html;
-        }
-
-        // Проверка, является ли выбранная дата сегодняшним днем
-        function isSelectedDateToday() {
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            
-            const selected = new Date(selectedDate);
-            selected.setHours(0, 0, 0, 0);
-            
-            return selected.getTime() === today.getTime();
-        }
-
-        // Проверка, является ли пара текущей
-        function isCurrentPair(pair) {
-            if (!isSelectedDateToday()) return false;
-            
-            const now = new Date();
-            const [startHour, startMinute] = pair.start.split(':').map(Number);
-            const [endHour, endMinute] = pair.end.split(':').map(Number);
-            
-            const startTime = new Date();
-            startTime.setHours(startHour, startMinute, 0, 0);
-            
-            const endTime = new Date();
-            endTime.setHours(endHour, endMinute, 0, 0);
-            
-            return now >= startTime && now <= endTime;
-        }
-
-        // Проверка текущей пары и обновление UI
-        function checkCurrentPair() {
-            if (isSelectedDateToday()) {
-                renderSchedule();
-            }
-        }
-
-        // Настройка обработчиков событий
-        function setupEventListeners() {
-            prevDayBtn.addEventListener('click', () => {
-                selectedDate.setDate(selectedDate.getDate() - 1);
-                updateSelectedDateDisplay();
-                renderSchedule();
-            });
-            
-            nextDayBtn.addEventListener('click', () => {
-                selectedDate.setDate(selectedDate.getDate() + 1);
-                updateSelectedDateDisplay();
-                renderSchedule();
-            });
-            
-            todayBtn.addEventListener('click', () => {
-                selectedDate = new Date(currentDate);
-                updateSelectedDateDisplay();
-                renderSchedule();
-            });
-            
-            scheduleTypeSelect.addEventListener('change', (e) => {
-                currentScheduleType = e.target.value;
-                renderSchedule();
-            });
-            
-            weekTypeSelect.addEventListener('change', (e) => {
-                currentWeekType = e.target.value;
-                // Здесь можно добавить логику для разных недель
-            });
-        }
-
-        // PWA функциональность
-        function checkPWAInstallation() {
-            let deferredPrompt;
-            
-            // Определяем iOS устройство
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-            const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
-                               window.navigator.standalone === true;
-            
-            // Показываем iOS кнопку если это iOS и не установлено
-            if (isIOS && !isStandalone) {
-                iosInstallBtn.classList.remove('hidden');
-            }
-            
-            // Стандартная PWA установка (Android, Desktop)
-            window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                deferredPrompt = e;
-                // Показываем кнопку только если это не iOS
-                if (!isIOS) {
-                    installBtn.classList.remove('hidden');
-                }
-            });
-            
-            // Обработчик стандартной установки
-            installBtn.addEventListener('click', async () => {
-                if (deferredPrompt) {
-                    deferredPrompt.prompt();
-                    const { outcome } = await deferredPrompt.userChoice;
-                    if (outcome === 'accepted') {
-                        installBtn.classList.add('hidden');
-                    }
-                    deferredPrompt = null;
-                }
-            });
-            
-            // Обработчик iOS инструкции
-            iosInstallBtn.addEventListener('click', () => {
-                iosModal.classList.remove('hidden');
-            });
-            
-            // Закрытие iOS модального окна
-            closeIosModal.addEventListener('click', () => {
-                iosModal.classList.add('hidden');
-            });
-            
-            // Закрытие по клику на фон
-            iosModal.addEventListener('click', (e) => {
-                if (e.target === iosModal) {
-                    iosModal.classList.add('hidden');
-                }
-            });
-            
-            // Скрываем кнопки после установки
-            window.addEventListener('appinstalled', () => {
-                installBtn.classList.add('hidden');
-                iosInstallBtn.classList.add('hidden');
-            });
-        }
-
-        // Service Worker регистрация
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/pwa/sw.js').then(registration => {
-                    console.log('ServiceWorker registration successful');
-                }).catch(err => {
-                    console.log('ServiceWorker registration failed: ', err);
-                });
-            });
-        }
-
-        // Запуск приложения
-        document.addEventListener('DOMContentLoaded', init);
-    </script>
+    <script src="scripts/main.js" type="module"></script>
 </body>
 </html>

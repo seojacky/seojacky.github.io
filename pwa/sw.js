@@ -1,11 +1,14 @@
-const CACHE_NAME = 'bell-schedule-v1.0.1';
+const CACHE_NAME = 'bell-schedule-v1.1.0';
 const BASE_PATH = '/pwa';
 
 // Файлы для кэширования (только локальные файлы)
 const urlsToCache = [
   `${BASE_PATH}/`,
   `${BASE_PATH}/index.html`,
-  `${BASE_PATH}/manifest.json`
+  `${BASE_PATH}/manifest.json`,
+  `${BASE_PATH}/settings/universities/kntu/config.json`,
+  `${BASE_PATH}/scripts/config-loader.js`,
+  `${BASE_PATH}/scripts/main.js`
 ];
 
 // Внешние ресурсы для кэширования с no-cors
