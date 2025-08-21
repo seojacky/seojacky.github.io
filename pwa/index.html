@@ -6,7 +6,7 @@
     <title>Розклад дзвінків</title>
     <meta name="theme-color" content="#4f46e5">
     <meta name="description" content="Додаток для відображення розкладу дзвінків з підсвіткою поточної пари">
-    <link rel="manifest" href="/pwa/manifest.json?v=1.2.0">
+    <link rel="manifest" href="/pwa/manifest.json?v=1.3.0">
     <script src="https://cdn.tailwindcss.com?v=1.1.0"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css?v=1.1.0">
     <style>
@@ -156,30 +156,61 @@
             });
         }
 
-        // PWA Install промпт
+        // PWA Install промпт з DEBUG
         let deferredPrompt;
         const installBtn = document.getElementById('install-btn');
         const iosInstallBtn = document.getElementById('ios-install-btn');
         const iosModal = document.getElementById('ios-modal');
         const closeIosModal = document.getElementById('close-ios-modal');
 
-        // Перевірка iOS
+        // DEBUG: Перевірка iOS
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
         const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
                            window.navigator.standalone === true;
 
+        console.log('DEBUG: isIOS =', isIOS);
+        console.log('DEBUG: isStandalone =', isStandalone);
+        console.log('DEBUG: userAgent =', navigator.userAgent);
+
         if (isIOS && !isStandalone) {
             iosInstallBtn.classList.remove('hidden');
+            console.log('DEBUG: Показуємо iOS кнопку');
         }
 
-        // PWA install event
+        // DEBUG: Завжди показувати кнопку на мобільних для тестування
+        if (!isIOS && window.innerWidth <= 768) {
+            installBtn.classList.remove('hidden');
+            installBtn.textContent = '🐛 DEBUG: Встановити (тест)';
+            console.log('DEBUG: Показуємо тестову кнопку на мобільному');
+        }
+
+        // PWA install event з DEBUG
         window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('DEBUG: beforeinstallprompt event fired!');
             e.preventDefault();
             deferredPrompt = e;
             if (!isIOS) {
                 installBtn.classList.remove('hidden');
+                installBtn.textContent = '📱 Встановити додаток';
+                console.log('DEBUG: Показуємо справжню install кнопку');
             }
         });
+
+        // DEBUG: Перевірка чому не спрацьовує beforeinstallprompt
+        setTimeout(() => {
+            if (!deferredPrompt && !isIOS) {
+                console.log('DEBUG: beforeinstallprompt НЕ спрацював. Можливі причини:');
+                console.log('- PWA вже встановлено');
+                console.log('- Manifest має помилки');
+                console.log('- Service Worker не зареєстровано');
+                console.log('- Браузер не підтримує PWA install');
+                
+                // Показуємо debug інформацію
+                installBtn.classList.remove('hidden');
+                installBtn.textContent = '❌ DEBUG: Install недоступний';
+                installBtn.disabled = true;
+            }
+        }, 3000);
 
         // Install button click
         installBtn.addEventListener('click', async () => {
