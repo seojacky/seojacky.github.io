@@ -99,17 +99,10 @@ async function renderSchedule() {
             </div>
         `;
         
-        // Рендер перерви
+        // Рендер перерви (тонка смужка)
         if (nextItem && item.breakAfter > 0) {
             html += `
-                <div class="px-4 py-2 transition-all duration-200 break" data-start="${item.end}" data-end="${nextItem.start}">
-                    <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                        <span class="w-8 h-8 flex items-center justify-center mr-3">•</span>
-                        <div>
-                            <p>Перерва ${item.breakAfter} хв</p>
-                        </div>
-                    </div>
-                </div>
+                <div class="transition-all duration-200 break" data-start="${item.end}" data-end="${nextItem.start}" style="height: 8px; background-color: transparent;"></div>
             `;
         }
     });
@@ -141,13 +134,6 @@ async function highlightCurrentClass() {
                 if (item.classList.contains('break')) {
                     item.classList.add('current-break');
                     item.style.backgroundColor = '#f59e0b';
-                    
-                    // Додаємо індикатор "Перерва зараз"
-                    const indicator = item.querySelector('.break-indicator');
-                    if (!indicator) {
-                        const breakDiv = item.querySelector('div > div');
-                        breakDiv.innerHTML += '<span class="bg-orange-500 text-white text-xs font-semibold px-2 py-1 rounded-full ml-auto break-indicator">Перерва зараз</span>';
-                    }
                 } else {
                     item.classList.add('current-class');
                     item.classList.add('current', 'pulse');
@@ -169,9 +155,7 @@ async function highlightCurrentClass() {
                 
                 // Видаляємо індикатори
                 const currentIndicator = item.querySelector('.current-indicator');
-                const breakIndicator = item.querySelector('.break-indicator');
                 if (currentIndicator) currentIndicator.remove();
-                if (breakIndicator) breakIndicator.remove();
                 
                 // Повертаємо стандартні стилі кружечка
                 const circle = item.querySelector('span');
