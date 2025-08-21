@@ -10,6 +10,22 @@
   "theme_color": "#4f46e5",
   "categories": ["education", "productivity"],
   "lang": "uk",
+  "screenshots": [
+    {
+      "src": "/pwa/screenshots/screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Розклад дзвінків на мобільному"
+    },
+    {
+      "src": "/pwa/screenshots/screenshot-desktop.png", 
+      "sizes": "1280x800",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Розклад дзвінків на комп'ютері"
+    }
+  ],
   "icons": [
     {
       "src": "/pwa/icons/icon-72x72.png",
