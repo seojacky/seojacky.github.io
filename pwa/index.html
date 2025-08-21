@@ -144,6 +144,15 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    <script>
+        // Мобільна консоль для debug
+        if (window.innerWidth <= 768) {
+            eruda.init();
+            console.log('📱 Мобільна консоль активована');
+        }
+    </script>
+
     <script>
         // Service Worker реєстрація
         if ('serviceWorker' in navigator) {
