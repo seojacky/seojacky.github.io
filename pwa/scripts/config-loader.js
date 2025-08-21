@@ -13,7 +13,7 @@ class ConfigLoader {
         }
 
         try {
-            const configPath = `settings/universities/${this.universityCode}/config.json`;
+            const configPath = `/pwa/settings/universities/${this.universityCode}/config.json`;
             const response = await fetch(configPath);
             
             if (!response.ok) {
