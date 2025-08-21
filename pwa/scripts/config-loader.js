@@ -13,14 +13,8 @@ class ConfigLoader {
         }
 
         try {
-            const configPath = `/pwa/settings/universities/${this.universityCode}/config.json`;
-            const response = await fetch(configPath);
-            
-            if (!response.ok) {
-                throw new Error(`Не вдалося завантажити конфігурацію: ${response.status}`);
-            }
-            
-            this.config = await response.json();
+            const configModule = await import(`/pwa/settings/universities/${this.universityCode}/config.js`);
+            this.config = configModule.default;
             console.log('Конфігурація успішно завантажена:', this.config.university.name);
             return this.config;
         } catch (error) {
