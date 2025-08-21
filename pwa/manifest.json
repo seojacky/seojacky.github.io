@@ -10,7 +10,6 @@
   "theme_color": "#4f46e5",
   "categories": ["education", "productivity"],
   "lang": "uk",
-  "form_factor": "narrow",
   "icons": [
     {
       "src": "/pwa/icons/icon-72x72.png",
