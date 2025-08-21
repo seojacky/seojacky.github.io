@@ -6,7 +6,7 @@ const urlsToCache = [
   `${BASE_PATH}/`,
   `${BASE_PATH}/index.html`,
   `${BASE_PATH}/manifest.json`,
-  `${BASE_PATH}/settings/universities/kntu/config.json`,
+  `${BASE_PATH}/settings/universities/kntu/config.js`,
   `${BASE_PATH}/scripts/config-loader.js`,
   `${BASE_PATH}/scripts/main.js`
 ];
