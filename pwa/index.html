@@ -52,9 +52,6 @@
         .pulse {
             animation: pulse 2s infinite;
         }
-        .p-4 {
-    padding: 0.2rem 1rem;
-        }
         
         @keyframes pulse {
             0% {
@@ -146,6 +143,78 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Service Worker реєстрація
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/pwa/sw.js').then(registration => {
+                    console.log('ServiceWorker registration successful');
+                }).catch(err => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+
+        // PWA Install промпт
+        let deferredPrompt;
+        const installBtn = document.getElementById('install-btn');
+        const iosInstallBtn = document.getElementById('ios-install-btn');
+        const iosModal = document.getElementById('ios-modal');
+        const closeIosModal = document.getElementById('close-ios-modal');
+
+        // Перевірка iOS
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
+                           window.navigator.standalone === true;
+
+        if (isIOS && !isStandalone) {
+            iosInstallBtn.classList.remove('hidden');
+        }
+
+        // PWA install event
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            if (!isIOS) {
+                installBtn.classList.remove('hidden');
+            }
+        });
+
+        // Install button click
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    installBtn.classList.add('hidden');
+                }
+                deferredPrompt = null;
+            }
+        });
+
+        // iOS install button
+        iosInstallBtn.addEventListener('click', () => {
+            iosModal.classList.remove('hidden');
+        });
+
+        // Close iOS modal
+        closeIosModal.addEventListener('click', () => {
+            iosModal.classList.add('hidden');
+        });
+
+        iosModal.addEventListener('click', (e) => {
+            if (e.target === iosModal) {
+                iosModal.classList.add('hidden');
+            }
+        });
+
+        // Hide buttons after install
+        window.addEventListener('appinstalled', () => {
+            installBtn.classList.add('hidden');
+            iosInstallBtn.classList.add('hidden');
+        });
+    </script>
 
     <script src="scripts/main.js?v=1.1.0" type="module"></script>
 </body>
