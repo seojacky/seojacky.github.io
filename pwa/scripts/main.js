@@ -115,7 +115,7 @@ async function renderSchedule() {
     }
 }
 
-// Підсвітка поточної пари/перерви (адаптована з popup.js рядок 324)
+// Підсвітка поточної пари/перерви 
 async function highlightCurrentClass() {
     const scheduleItems = document.querySelectorAll('#schedule-container > div');
     const currentTime = await getKyivCurrentTime();
@@ -138,24 +138,13 @@ async function highlightCurrentClass() {
                     item.classList.add('current-class');
                     item.classList.add('current', 'pulse');
                     
-                    // Оновлюємо стилі кружечка та тексту
+                    
                     const circle = item.querySelector('span');
                     circle.className = 'w-8 h-8 flex items-center justify-center rounded-full bg-white text-indigo-600 font-semibold mr-3';
-                    
-                    // Додаємо індикатор "Зараз"
-                    const indicator = item.querySelector('.current-indicator');
-                    if (!indicator) {
-                        const controlDiv = item.querySelector('.flex.justify-between');
-                        controlDiv.innerHTML += '<span class="bg-white text-indigo-600 text-xs font-semibold px-2 py-1 rounded-full current-indicator">Зараз</span>';
-                    }
                 }
             } else {
                 item.classList.remove('current-class', 'current-break', 'current', 'pulse');
                 item.style.backgroundColor = 'transparent';
-                
-                // Видаляємо індикатори
-                const currentIndicator = item.querySelector('.current-indicator');
-                if (currentIndicator) currentIndicator.remove();
                 
                 // Повертаємо стандартні стилі кружечка
                 const circle = item.querySelector('span');
