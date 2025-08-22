@@ -136,14 +136,14 @@ async function highlightCurrentClass() {
                     item.style.backgroundColor = '#f59e0b';
                 } else {
                     item.classList.add('current-class');
-                    item.classList.add('current', 'pulse');
+                    item.classList.add('current');
                     
                     
                     const circle = item.querySelector('span');
                     circle.className = 'w-8 h-8 flex items-center justify-center rounded-full bg-white text-indigo-600 font-semibold mr-3';
                 }
             } else {
-                item.classList.remove('current-class', 'current-break', 'current', 'pulse');
+                item.classList.remove('current-class', 'current-break', 'current');
                 item.style.backgroundColor = 'transparent';
                 
                 // Повертаємо стандартні стилі кружечка
