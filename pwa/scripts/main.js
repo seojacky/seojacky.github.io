@@ -42,10 +42,10 @@ async function updateWeekInfo() {
     
     try {
         const weekText = await weekCalculator.getWeekText();
-        weekInfoElement.textContent = `Розклад дзвінків | ${weekText}`;
+        weekInfoElement.textContent = `${weekText}`;
     } catch (error) {
         console.error('Помилка оновлення номера тижня:', error);
-        weekInfoElement.textContent = 'Розклад дзвінків';
+        weekInfoElement.textContent = 'Номер тижня невідомий';
     }
 }
 
