@@ -56,10 +56,6 @@ function updateCurrentTime() {
     const minutes = now.getMinutes().toString().padStart(2, '0');
     const seconds = now.getSeconds().toString().padStart(2, '0');
     currentTimeElement.textContent = `${hours}:${minutes}:${seconds}`;
-    
-    // Оновлюємо поточну дату
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    currentDateElement.textContent = now.toLocaleDateString('uk-UA', options);
 }
 
 // Перевірка чи вибрана дата сьогоднішня
@@ -81,13 +77,9 @@ function updateSelectedDateDisplay() {
     const selected = new Date(selectedDate);
     selected.setHours(0, 0, 0, 0);
     
-    if (selected.getTime() === today.getTime()) {
-        selectedDateElement.textContent = "Сьогодні";
-    } else {
-        const dayName = weekDays[selectedDate.getDay()];
-        const dateStr = selectedDate.toLocaleDateString('uk-UA', { day: 'numeric', month: 'long' });
-        selectedDateElement.textContent = `${dayName}, ${dateStr}`;
-    }
+    const dayName = weekDays[selectedDate.getDay()];
+    const dateStr = selectedDate.toLocaleDateString('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' });
+    selectedDateElement.textContent = `${dayName}, ${dateStr}`;
 }
 
 // Рендер розкладу з конфігурації
