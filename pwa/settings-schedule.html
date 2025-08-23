@@ -1,0 +1,212 @@
+<!-- Модальне вікно налаштувань розкладу -->
+<div id="schedule-settings-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+    <div class="min-h-screen flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <!-- Заголовок модалки -->
+            <div class="bg-indigo-600 text-white p-4 rounded-t-lg">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-semibold flex items-center">
+                        <i class="fas fa-cog mr-2"></i>
+                        Налаштування розкладу
+                    </h3>
+                    <button id="close-schedule-modal" class="text-white hover:text-gray-200 transition-colors">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Основний контент модалки -->
+            <div class="p-6">
+                <!-- Повідомлення про помилку -->
+                <div id="schedule-error-message" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    <div class="flex items-center">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        <span id="schedule-error-text">Помилка завантаження</span>
+                    </div>
+                </div>
+
+                <!-- Індикатор завантаження -->
+                <div id="schedule-loading" class="hidden text-center py-4">
+                    <div class="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-600"></div>
+                    <p class="mt-2 text-gray-600 dark:text-gray-400 text-sm">Завантаження...</p>
+                </div>
+
+                <!-- Форма налаштувань -->
+                <form id="schedule-settings-form" class="space-y-4">
+                    <!-- Вибір ролі -->
+                    <div class="form-group">
+                        <label for="user-role" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            <i class="fas fa-user mr-2 text-indigo-600"></i>
+                            Оберіть роль:
+                        </label>
+                        <select id="user-role" name="userRole" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white dark:bg-gray-700 dark:text-white">
+                            <option value="">-- Оберіть роль --</option>
+                            <option value="student">👨‍🎓 Студент</option>
+                            <option value="teacher">👨‍🏫 Викладач</option>
+                        </select>
+                    </div>
+
+                    <!-- Блок для студентів -->
+                    <div id="student-flow" class="hidden space-y-4">
+                        <!-- Факультет для студентів -->
+                        <div class="form-group">
+                            <label for="student-faculty" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                <i class="fas fa-building mr-2 text-indigo-600"></i>
+                                Факультет:
+                            </label>
+                            <select id="student-faculty" name="studentFaculty" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white dark:bg-gray-700 dark:text-white">
+                                <option value="">-- Оберіть факультет --</option>
+                            </select>
+                        </div>
+
+                        <!-- Група -->
+                        <div id="group-container" class="form-group hidden">
+                            <label for="student-group" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                <i class="fas fa-users mr-2 text-indigo-600"></i>
+                                Група:
+                            </label>
+                            <select id="student-group" name="studentGroup" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white dark:bg-gray-700 dark:text-white">
+                                <option value="">-- Оберіть групу --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Блок для викладачів -->
+                    <div id="teacher-flow" class="hidden space-y-4">
+                        <!-- Факультет для викладачів -->
+                        <div class="form-group">
+                            <label for="teacher-faculty" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                <i class="fas fa-building mr-2 text-indigo-600"></i>
+                                Факультет:
+                            </label>
+                            <select id="teacher-faculty" name="teacherFaculty" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white dark:bg-gray-700 dark:text-white">
+                                <option value="">-- Оберіть факультет --</option>
+                            </select>
+                        </div>
+
+                        <!-- Кафедра -->
+                        <div id="cafedra-container" class="form-group hidden">
+                            <label for="teacher-cafedra" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                <i class="fas fa-sitemap mr-2 text-indigo-600"></i>
+                                Кафедра:
+                            </label>
+                            <select id="teacher-cafedra" name="teacherCafedra" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white dark:bg-gray-700 dark:text-white">
+                                <option value="">-- Оберіть кафедру --</option>
+                            </select>
+                        </div>
+
+                        <!-- Викладач -->
+                        <div id="teacher-container" class="form-group hidden">
+                            <label for="teacher-select" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                <i class="fas fa-chalkboard-teacher mr-2 text-indigo-600"></i>
+                                Викладач:
+                            </label>
+                            <select id="teacher-select" name="teacherSelect" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white dark:bg-gray-700 dark:text-white">
+                                <option value="">-- Оберіть викладача --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Кнопки дій -->
+                    <div class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-200 dark:border-gray-600">
+                        <button type="button" id="cancel-schedule-settings" class="flex-1 px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 rounded-md transition-colors">
+                            <i class="fas fa-times mr-2"></i>
+                            Скасувати
+                        </button>
+                        <button type="submit" id="save-schedule-settings" class="flex-1 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed" disabled>
+                            <i class="fas fa-save mr-2"></i>
+                            Зберегти
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Додаткова інформація -->
+                <div class="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                    <div class="flex items-start">
+                        <i class="fas fa-info-circle text-blue-500 mt-1 mr-2"></i>
+                        <div class="text-sm text-blue-700 dark:text-blue-300">
+                            <p class="font-medium mb-1">Інформація:</p>
+                            <ul class="list-disc list-inside space-y-1 text-xs">
+                                <li>Налаштування зберігаються локально на вашому пристрої</li>
+                                <li>Для зміни налаштувань можна повторно відкрити це вікно</li>
+                                <li>Розклад завантажується з офіційного API університету</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Стилі для модалки (додаткові до Tailwind) -->
+<style>
+    /* Плавна анімація появи модалки */
+    #schedule-settings-modal {
+        backdrop-filter: blur(2px);
+        transition: opacity 0.3s ease;
+    }
+    
+    #schedule-settings-modal.show {
+        opacity: 1;
+    }
+    
+    /* Анімація модального вікна */
+    #schedule-settings-modal .bg-white {
+        transform: scale(0.95);
+        transition: transform 0.3s ease;
+    }
+    
+    #schedule-settings-modal.show .bg-white {
+        transform: scale(1);
+    }
+    
+    /* Стилі для select-ів */
+    select:focus {
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+    
+    /* Стилі для темної теми */
+    @media (prefers-color-scheme: dark) {
+        #schedule-settings-modal select option {
+            background-color: #374151;
+            color: #f9fafb;
+        }
+    }
+    
+    /* Адаптивні стилі для мобільних */
+    @media (max-width: 640px) {
+        #schedule-settings-modal .max-w-md {
+            max-width: 95vw;
+            margin: 0.5rem;
+        }
+        
+        #schedule-settings-modal .p-6 {
+            padding: 1rem;
+        }
+        
+        #schedule-settings-modal .p-4 {
+            padding: 1rem;
+        }
+    }
+    
+    /* Кастомні стилі для індикатора завантаження */
+    .animate-spin {
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+    
+    /* Стилі для кнопки закриття */
+    #close-schedule-modal:hover {
+        transform: scale(1.1);
+        transition: transform 0.2s ease;
+    }
+</style>

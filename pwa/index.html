@@ -6,9 +6,9 @@
     <title>Розклад дзвінків</title>
     <meta name="theme-color" content="#4f46e5">
     <meta name="description" content="Додаток для відображення розкладу дзвінків з підсвіткою поточної пари">
-    <link rel="manifest" href="/pwa/manifest.json?v=1.5.1">
-    <script src="https://cdn.tailwindcss.com?v=1.5.1"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css?v=1.5.1">
+    <link rel="manifest" href="/pwa/manifest.json?v=1.6.0">
+    <script src="https://cdn.tailwindcss.com?v=1.6.0"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css?v=1.6.0">
     <style>
         @media (prefers-color-scheme: dark) {
             :root {
@@ -69,6 +69,67 @@
             width: 20px; 
             height: 20px; 
         }
+
+        /* Стилі для вкладок */
+        .week-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tab-switcher {
+            display: flex;
+            gap: 8px;
+        }
+
+        .tab-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: var(--text-color);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background-color: white;
+            color: #4f46e5;
+            border-color: white;
+            font-weight: 600;
+        }
+
+        .tab-btn:hover:not(.active) {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .tab-content {
+            transition: opacity 0.3s;
+        }
+
+        .tab-content.hidden {
+            display: none;
+        }
+
+        @media (max-width: 640px) {
+            .week-info-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .tab-switcher {
+                align-self: stretch;
+                justify-content: center;
+            }
+            
+            .tab-btn {
+                flex: 1;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -77,7 +138,7 @@
             <h1 class="text-2xl font-bold flex items-center">
                 <i class="fas fa-bell mr-2"></i>
                 Розклад дзвінків
-                <span id="app-version" class="version-display">v1.5.1</span>
+                <span id="app-version" class="version-display">v1.6.0</span>
             </h1>
             <div id="current-time" class="text-lg font-mono bg-indigo-700 px-3 py-1 rounded-md"></div>
         </div>
@@ -96,17 +157,42 @@
 
         <div class="mb-6">
             <div class="mb-4">
-                <div id="week-info" style="font-size: 20px; font-weight: 600; margin-bottom: 8px; color: var(--text-color); transition: color 0.3s;"></div>                
+                <div class="week-info-container">
+                    <div id="week-info" style="font-size: 20px; font-weight: 600; color: var(--text-color); transition: color 0.3s;"></div>
+                    <div class="tab-switcher">
+                        <button class="tab-btn active" data-tab="bells">дзвінки</button>
+                        <button class="tab-btn" data-tab="schedule">розклад</button>
+                    </div>
+                </div>                
             </div>
         </div>
 
-        <div class="grid gap-4">
-            <div class="card rounded-lg shadow-md overflow-hidden">
-                <div class="bg-indigo-100 dark:bg-indigo-900 p-3">
-                    <h3 class="text-lg font-semibold text-indigo-800 dark:text-indigo-200" id="selected-date">Сьогодні</h3>
+        <!-- Контент для розкладу дзвінків -->
+        <div id="bells-content" class="tab-content">
+            <div class="grid gap-4">
+                <div class="card rounded-lg shadow-md overflow-hidden">
+                    <div class="bg-indigo-100 dark:bg-indigo-900 p-3">
+                        <h3 class="text-lg font-semibold text-indigo-800 dark:text-indigo-200" id="selected-date">Сьогодні</h3>
+                    </div>
+                    <div class="divide-y divide-gray-200 dark:divide-gray-700">
+                        <div id="schedule-container"></div>
+                    </div>
                 </div>
-                <div class="divide-y divide-gray-200 dark:divide-gray-700">
-                    <div id="schedule-container"></div>
+            </div>
+        </div>
+
+        <!-- Контент для розкладу занять (поки порожній) -->
+        <div id="schedule-content" class="tab-content hidden">
+            <div class="grid gap-4">
+                <div class="card rounded-lg shadow-md overflow-hidden">
+                    <div class="bg-indigo-100 dark:bg-indigo-900 p-3">
+                        <h3 class="text-lg font-semibold text-indigo-800 dark:text-indigo-200">Розклад навчальних занять</h3>
+                    </div>
+                    <div class="p-4">
+                        <p class="text-center text-gray-600 dark:text-gray-400">
+                            Розклад занять буде тут...
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -219,8 +305,40 @@
             installBtn.classList.add('hidden');
             iosInstallBtn.classList.add('hidden');
         });
+
+        // Обробка перемикання вкладок
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetTab = button.dataset.tab;
+                    
+                    // Оновлення активної кнопки
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    // Перемикання контенту
+                    tabContents.forEach(content => {
+                        content.classList.add('hidden');
+                    });
+                    
+                    const targetContent = document.getElementById(`${targetTab}-content`);
+                    if (targetContent) {
+                        targetContent.classList.remove('hidden');
+                    }
+                    
+                    // Якщо натиснуто на "розклад" - тут буде логіка ініціалізації
+                    if (targetTab === 'schedule') {
+                        // TODO: Ініціалізація розкладу занять
+                        console.log('Ініціалізація розкладу занять');
+                    }
+                });
+            });
+        });
     </script>
 
-    <script src="scripts/main.js?v=1.5.1" type="module"></script>
+    <script src="scripts/main.js?v=1.6.0" type="module"></script>
 </body>
 </html>
