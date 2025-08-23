@@ -57,6 +57,10 @@ export default {
         "duration": 80,
         "breakAfter": 0
       }
-    ]
+    ],
+    "academicYear": {
+      "startDate": "2024-09-02",
+      "endDate": "2025-06-30"
+    }
   }
 };
