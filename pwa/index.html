@@ -6,9 +6,9 @@
     <title>Розклад дзвінків</title>
     <meta name="theme-color" content="#4f46e5">
     <meta name="description" content="Додаток для відображення розкладу дзвінків з підсвіткою поточної пари">
-    <link rel="manifest" href="/pwa/manifest.json?v=1.4.0">
-    <script src="https://cdn.tailwindcss.com?v=1.4.0"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css?v=1.4.0">
+    <link rel="manifest" href="/pwa/manifest.json?v=1.5.0">
+    <script src="https://cdn.tailwindcss.com?v=1.5.0"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css?v=1.5.0">
     <style>
         @media (prefers-color-scheme: dark) {
             :root {
@@ -58,8 +58,8 @@
             background-size: contain;
             background-position: center;
             display: inline-block;
-            width: 20px; /* встановіть потрібний розмір */
-            height: 20px; /* встановіть потрібний розмір */
+            width: 20px; 
+            height: 20px; 
 }
     </style>
 </head>
@@ -87,7 +87,7 @@
 
         <div class="mb-6">
             <div class="mb-4">
-                <h2 class="text-xl font-semibold">Розклад</h2>
+                <div id="week-info" style="font-size: 20px; font-weight: 600; margin-bottom: 8px; color: var(--text-color); transition: color 0.3s;"></div>
                 <p class="text-gray-500 dark:text-gray-400">Сьогодні: <span id="current-date"></span></p>
             </div>
         </div>
@@ -213,6 +213,6 @@
         });
     </script>
 
-    <script src="scripts/main.js?v=1.1.0" type="module"></script>
+    <script src="scripts/main.js?v=1.5.0" type="module"></script>
 </body>
 </html>
