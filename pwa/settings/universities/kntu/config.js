@@ -66,7 +66,7 @@ export default {
   
   // === НОВА СЕКЦІЯ: API КОНФІГУРАЦІЯ ===
   "api": {
-    "baseUrl": "http://91.199.45.91:8080/api",
+    "baseUrl": "https://91.199.45.91:8080/api",
     "timeout": 10000,
     "cache": {
       "enabled": true,
