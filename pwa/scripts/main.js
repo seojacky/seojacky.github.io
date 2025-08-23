@@ -1,18 +1,17 @@
 import { WeekCalculator } from './week-calculator.js';
 import { config } from './config-loader.js';
 
-// Імпорти для розкладу занять (будуть створені пізніше)
-// import { SettingsScheduleManager } from './settings-schedule-manager.js';
-// import { ScheduleRenderer } from './schedule-renderer.js';
+// Імпорти для розкладу занять
+import { SettingsScheduleManager } from './settings-schedule-manager.js';
+import { scheduleRenderer } from './schedule-renderer.js';
 
 // Глобальні змінні
 let selectedDate = new Date();
 let weekCalculator;
 
-// Нові змінні для розкладу занять
+// Змінні для розкладу занять
 let scheduleInitialized = false;
 let settingsManager = null;
-let scheduleRenderer = null;
 
 // DOM елементи
 const scheduleContainer = document.getElementById('schedule-container');
@@ -181,7 +180,7 @@ function checkCurrentPair() {
     }
 }
 
-// === НОВА ЛОГІКА ДЛЯ РОЗКЛАДУ ЗАНЯТЬ ===
+// === ЛОГІКА ДЛЯ РОЗКЛАДУ ЗАНЯТЬ ===
 
 // Ініціалізація розкладу занять
 async function initScheduleTab() {
@@ -193,6 +192,9 @@ async function initScheduleTab() {
     }
     
     try {
+        // Ініціалізуємо scheduleRenderer
+        await scheduleRenderer.init();
+        
         // Перевіряємо чи є збережені налаштування
         const savedSettings = localStorage.getItem('scheduleSettings');
         
@@ -200,8 +202,9 @@ async function initScheduleTab() {
             console.log('Налаштування розкладу відсутні, показуємо модалку');
             await showScheduleSettings();
         } else {
-            console.log('Знайдено збережені налаштування:', JSON.parse(savedSettings));
-            await loadScheduleContent();
+            const settings = JSON.parse(savedSettings);
+            console.log('Знайдено збережені налаштування:', settings);
+            await loadScheduleContent(settings);
         }
         
         scheduleInitialized = true;
@@ -215,70 +218,72 @@ async function initScheduleTab() {
 async function showScheduleSettings() {
     console.log('Показуємо модалку налаштувань розкладу');
     
-    // TODO: Реалізувати після створення settings-schedule-manager.js
-    // if (!settingsManager) {
-    //     const { SettingsScheduleManager } = await import('./settings-schedule-manager.js');
-    //     settingsManager = new SettingsScheduleManager();
-    // }
-    // settingsManager.show();
-    
-    // Тимчасова заглушка
-    const scheduleContent = document.getElementById('schedule-content');
-    if (scheduleContent) {
-        scheduleContent.innerHTML = `
-            <div class="grid gap-4">
-                <div class="card rounded-lg shadow-md overflow-hidden">
-                    <div class="bg-indigo-100 dark:bg-indigo-900 p-3">
-                        <h3 class="text-lg font-semibold text-indigo-800 dark:text-indigo-200">Налаштування розкладу</h3>
-                    </div>
-                    <div class="p-4">
-                        <p class="text-center text-gray-600 dark:text-gray-400 mb-4">
-                            Для перегляду розкладу занять необхідно налаштувати параметри
-                        </p>
-                        <button id="configure-schedule" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md transition">
-                            Налаштувати розклад
-                        </button>
+    try {
+        // Створюємо менеджер налаштувань якщо його немає
+        if (!settingsManager) {
+            settingsManager = new SettingsScheduleManager();
+        }
+        
+        // Налаштовуємо callback для збереження
+        settingsManager.onSave(async (settings) => {
+            console.log('Налаштування збережено:', settings);
+            await loadScheduleContent(settings);
+        });
+        
+        // Показуємо модалку
+        await settingsManager.show();
+        
+    } catch (error) {
+        console.error('Помилка показу модалки налаштувань:', error);
+        
+        // Fallback - показуємо кнопку для повторної спроби
+        const scheduleContent = document.getElementById('schedule-content');
+        if (scheduleContent) {
+            scheduleContent.innerHTML = `
+                <div class="grid gap-4">
+                    <div class="card rounded-lg shadow-md overflow-hidden">
+                        <div class="bg-red-100 dark:bg-red-900 p-3">
+                            <h3 class="text-lg font-semibold text-red-800 dark:text-red-200">Помилка завантаження налаштувань</h3>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-red-600 dark:text-red-400 mb-4">
+                                Не вдалося завантажити форму налаштувань: ${error.message}
+                            </p>
+                            <button id="retry-settings" class="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md transition">
+                                Спробувати знову
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        `;
-        
-        // Додаємо обробник для тимчасової кнопки
-        const configBtn = document.getElementById('configure-schedule');
-        if (configBtn) {
-            configBtn.addEventListener('click', () => {
-                alert('Модалка налаштувань буде реалізована на наступному кроці');
-            });
+            `;
+            
+            const retryBtn = document.getElementById('retry-settings');
+            if (retryBtn) {
+                retryBtn.addEventListener('click', () => {
+                    settingsManager = null; // Скидаємо менеджер
+                    showScheduleSettings();
+                });
+            }
         }
     }
 }
 
 // Завантаження контенту розкладу
-async function loadScheduleContent() {
-    console.log('Завантаження контенту розкладу');
+async function loadScheduleContent(settings) {
+    console.log('Завантаження контенту розкладу для:', settings);
     
-    const scheduleContent = document.getElementById('schedule-content');
-    if (scheduleContent) {
-        scheduleContent.innerHTML = `
-            <div class="grid gap-4">
-                <div class="card rounded-lg shadow-md overflow-hidden">
-                    <div class="bg-indigo-100 dark:bg-indigo-900 p-3">
-                        <h3 class="text-lg font-semibold text-indigo-800 dark:text-indigo-200">Розклад навчальних занять</h3>
-                    </div>
-                    <div class="p-4">
-                        <p class="text-center text-gray-600 dark:text-gray-400">
-                            Тут буде відображено розклад занять...
-                        </p>
-                        <div class="mt-4 space-y-2">
-                            <div class="bg-gray-50 dark:bg-gray-700 p-3 rounded">
-                                <strong>Налаштування знайдено:</strong><br>
-                                <span class="text-sm text-gray-600 dark:text-gray-300">${localStorage.getItem('scheduleSettings')}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
+    try {
+        // Встановлюємо налаштування в renderer
+        scheduleRenderer.setSettings(settings);
+        
+        // Рендеримо розклад з поточними налаштуваннями
+        await scheduleRenderer.render(settings, new Date(), 'day');
+        
+        console.log('Розклад успішно завантажено та відображено');
+        
+    } catch (error) {
+        console.error('Помилка завантаження розкладу:', error);
+        showScheduleError('Помилка завантаження розкладу: ' + error.message);
     }
 }
 
@@ -293,18 +298,33 @@ function showScheduleError(message) {
                         <h3 class="text-lg font-semibold text-red-800 dark:text-red-200">Помилка</h3>
                     </div>
                     <div class="p-4">
-                        <p class="text-red-600 dark:text-red-400">${message}</p>
-                        <button id="retry-schedule" class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md transition">
-                            Спробувати знову
-                        </button>
+                        <p class="text-red-600 dark:text-red-400 mb-4">${message}</p>
+                        <div class="flex gap-3">
+                            <button id="retry-schedule" class="flex-1 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md transition">
+                                <i class="fas fa-redo mr-2"></i>Спробувати знову
+                            </button>
+                            <button id="reset-settings" class="flex-1 bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md transition">
+                                <i class="fas fa-cog mr-2"></i>Налаштування
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         `;
         
         const retryBtn = document.getElementById('retry-schedule');
+        const resetBtn = document.getElementById('reset-settings');
+        
         if (retryBtn) {
             retryBtn.addEventListener('click', () => {
+                scheduleInitialized = false;
+                initScheduleTab();
+            });
+        }
+        
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                localStorage.removeItem('scheduleSettings');
                 scheduleInitialized = false;
                 initScheduleTab();
             });
@@ -363,13 +383,28 @@ function setupTabHandlers() {
         button.addEventListener('click', async () => {
             const targetTab = button.dataset.tab;
             
+            console.log(`Перемикання на вкладку: ${targetTab}`);
+            
             // Якщо натиснуто на "розклад" - ініціалізуємо розклад занять
             if (targetTab === 'schedule') {
-                await initScheduleTab();
+                try {
+                    await initScheduleTab();
+                } catch (error) {
+                    console.error('Помилка ініціалізації вкладки розкладу:', error);
+                    showScheduleError('Критична помилка ініціалізації: ' + error.message);
+                }
             }
         });
     });
 }
+
+// Обробка зміни розміру вікна для scheduleRenderer
+window.addEventListener('resize', () => {
+    if (scheduleRenderer && scheduleRenderer.hasData()) {
+        // Перерендеримо тільки якщо є дані та змінився breakpoint
+        scheduleRenderer.renderCurrentData();
+    }
+});
 
 // Запуск при завантаженні DOM
 document.addEventListener('DOMContentLoaded', init);
