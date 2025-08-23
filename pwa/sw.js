@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bell-schedule-v1.1.0';
+const CACHE_NAME = 'bell-schedule-v1.4.0';
 const BASE_PATH = '/pwa';
 
 // Файлы для кэширования (только локальные файлы)
