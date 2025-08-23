@@ -41,7 +41,11 @@ class ConfigLoader {
                     { number: 5, start: "14:50", end: "16:10", duration: 80, breakAfter: 15 },
                     { number: 6, start: "16:25", end: "17:45", duration: 80, breakAfter: 15 },
                     { number: 7, start: "18:00", end: "19:20", duration: 80, breakAfter: 0 }
-                ]
+                ],
+                academicYear: {
+                    startDate: "2024-09-02",
+                    endDate: "2025-06-30"
+                }
             }
         };
     }
@@ -50,6 +54,18 @@ class ConfigLoader {
     async getBellSchedule() {
         const config = await this.loadConfig();
         return config.schedule?.bellSchedule || [];
+    }
+
+    // Отримання дати початку навчального року
+    async getAcademicYearStart() {
+        const config = await this.loadConfig();
+        const startDate = config.schedule?.academicYear?.startDate;
+        
+        if (!startDate) {
+            throw new Error('Початкова дата навчального року не задана в конфігурації');
+        }
+        
+        return startDate;
     }
 
     // Отримання часового поясу

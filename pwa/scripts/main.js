@@ -1,7 +1,9 @@
+import { WeekCalculator } from './week-calculator.js';
 import { config } from './config-loader.js';
 
 // Глобальні змінні
 let selectedDate = new Date();
+let weekCalculator;
 
 // DOM елементи
 const scheduleContainer = document.getElementById('schedule-container');
@@ -30,6 +32,21 @@ async function getKyivCurrentTime() {
     const minutes = parts.find(part => part.type === 'minute').value;
     
     return parseInt(hours) * 60 + parseInt(minutes);
+}
+
+// Функція для оновлення номера тижня
+async function updateWeekInfo() {
+    const weekInfoElement = document.getElementById('week-info');
+    
+    if (!weekInfoElement) return;
+    
+    try {
+        const weekText = await weekCalculator.getWeekText();
+        weekInfoElement.textContent = `Розклад дзвінків | ${weekText}`;
+    } catch (error) {
+        console.error('Помилка оновлення номера тижня:', error);
+        weekInfoElement.textContent = 'Розклад дзвінків';
+    }
 }
 
 // Оновлення поточного часу
@@ -165,13 +182,39 @@ function checkCurrentPair() {
 
 // Ініціалізація
 async function init() {
-    updateCurrentTime();
-    updateSelectedDateDisplay();
-    await renderSchedule();
-    
-    // Оновлення часу кожну секунду
-    setInterval(updateCurrentTime, 1000);
-    setInterval(checkCurrentPair, 10000); // Перевіряємо поточну пару кожні 10 секунд
+    try {
+        // Ініціалізуємо калькулятор тижнів
+        weekCalculator = new WeekCalculator();
+        await weekCalculator.init();
+        
+        await updateWeekInfo();
+        updateCurrentTime();
+        updateSelectedDateDisplay();
+        await renderSchedule();
+        
+        // Оновлення часу кожну секунду
+        setInterval(updateCurrentTime, 1000);
+        setInterval(checkCurrentPair, 10000);
+        
+        // Оновлюємо номер тижня кожну годину
+        setInterval(updateWeekInfo, 60 * 60 * 1000);
+        
+    } catch (error) {
+        console.error('Помилка ініціалізації:', error);
+        // Показуємо базовий заголовок якщо не вдалося завантажити номер тижня
+        const weekInfoElement = document.getElementById('week-info');
+        if (weekInfoElement) {
+            weekInfoElement.textContent = 'Розклад дзвінків';
+        }
+        
+        // Продовжуємо ініціалізацію решти функцій
+        updateCurrentTime();
+        updateSelectedDateDisplay();
+        await renderSchedule();
+        
+        setInterval(updateCurrentTime, 1000);
+        setInterval(checkCurrentPair, 10000);
+    }
 }
 
 // Запуск при завантаженні DOM
