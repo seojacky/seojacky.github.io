@@ -1,4 +1,5 @@
-const CACHE_NAME = 'bell-schedule-v1.5.0';
+const VERSION = '1.5.1';
+const CACHE_NAME = `bell-schedule-v${VERSION}`;
 const BASE_PATH = '/pwa';
 
 // Файлы для кэширования (только локальные файлы)
@@ -19,7 +20,7 @@ const externalResources = [
 
 // Установка Service Worker
 self.addEventListener('install', event => {
-  console.log('[SW] Installing...');
+  console.log(`[SW] Installing version ${VERSION}...`);
   event.waitUntil(
     Promise.all([
       // Кэшируем локальные файлы
@@ -42,7 +43,7 @@ self.addEventListener('install', event => {
       })
     ])
     .then(() => {
-      console.log('[SW] All files cached successfully');
+      console.log(`[SW] Version ${VERSION} cached successfully`);
       return self.skipWaiting();
     })
     .catch(err => {
@@ -53,7 +54,7 @@ self.addEventListener('install', event => {
 
 // Активация Service Worker
 self.addEventListener('activate', event => {
-  console.log('[SW] Activating...');
+  console.log(`[SW] Activating version ${VERSION}...`);
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
@@ -149,6 +150,11 @@ self.addEventListener('fetch', event => {
 self.addEventListener('message', event => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
+  }
+  
+  // Отправка версии клиенту
+  if (event.data && event.data.type === 'GET_VERSION') {
+    event.ports[0].postMessage({ version: VERSION });
   }
 });
 
