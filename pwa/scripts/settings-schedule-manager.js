@@ -6,8 +6,8 @@ export class SettingsScheduleManager {
         this.isInitialized = false;
         this.currentSettings = null;
         
-        // API базова URL (як у єХНТУ)
-        this.apiBaseUrl = 'http://91.199.45.91:8080/api';
+        // API базова URL
+        this.apiBaseUrl = 'https://91.199.45.91:8080/api';
         
         // Кеш для API запитів
         this.cache = {
