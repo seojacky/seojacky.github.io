@@ -1,4 +1,4 @@
-const VERSION = '1.6.0';
+const VERSION = '1.6.1';
 const CACHE_NAME = `bell-schedule-v${VERSION}`;
 const BASE_PATH = '/pwa';
 

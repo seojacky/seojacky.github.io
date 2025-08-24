@@ -48,7 +48,7 @@ class ConfigLoader {
                 }
             },
             api: {
-                baseUrl: "https://91.199.45.91:8080/api",
+                baseUrl: "https://sheduleapi.kntu.pp.ua/api",
                 endpoints: {
                     faculties: "/faculties/get-all",
                     groups: "/groups/get-all-by-id-faculty",

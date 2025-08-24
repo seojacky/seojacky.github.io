@@ -7,7 +7,7 @@ export class SettingsScheduleManager {
         this.currentSettings = null;
         
         // API базова URL
-        this.apiBaseUrl = 'https://91.199.45.91:8080/api';
+        this.apiBaseUrl = 'https://sheduleapi.kntu.pp.ua/api';
         
         // Кеш для API запитів
         this.cache = {

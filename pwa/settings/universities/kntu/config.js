@@ -66,7 +66,7 @@ export default {
   
   // === НОВА СЕКЦІЯ: API КОНФІГУРАЦІЯ ===
   "api": {
-    "baseUrl": "https://91.199.45.91:8080/api",
+    "baseUrl": "https://sheduleapi.kntu.pp.ua/api",
     "timeout": 10000,
     "cache": {
       "enabled": true,
@@ -237,7 +237,7 @@ export default {
   
   // === МЕТАІНФОРМАЦІЯ ===
   "meta": {
-    "version": "1.6.0",
+    "version": "1.6.1",
     "lastUpdated": "2025-08-23",
     "author": "KNTU Development Team",
     "description": "Конфігурація PWA розкладу дзвінків та навчальних занять ХНТУ"
