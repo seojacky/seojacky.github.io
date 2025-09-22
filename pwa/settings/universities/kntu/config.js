@@ -59,8 +59,8 @@ export default {
       }
     ],
     "academicYear": {
-      "startDate": "2024-09-02",
-      "endDate": "2025-06-30"
+      "startDate": "2025-09-01",
+      "endDate": "2026-08-30"
     }
   },
   
