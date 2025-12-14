@@ -16,10 +16,12 @@ cntd.ru
 cont.ws
 coolakov.ru
 drive2.ru
+dslib.net
 dzen.ru
 fl.ru
 gogetlinks.net
 ivgpu.com
+knc.ru
 kodeks.ru
 korabli.su
 lesta.games
@@ -30,6 +32,7 @@ livejournal.net
 lkforum.ru
 mail.ru
 meganorm.ru
+prnt.sc
 rambler.ru
 ranepa.ru
 refdb.ru
@@ -48,6 +51,7 @@ track-lesta.ru
 trbcdn.net
 tribuna.com
 turboreferat.ru
+tver.ru
 vk.com
 web-shpargalka.ru
 webnames.ru
