@@ -12,6 +12,7 @@ bget.ru
 booksite.ru
 brace-lf.com
 c-stud.ru
+championat.com
 cntd.ru
 cont.ws
 coolakov.ru
@@ -19,7 +20,9 @@ drive2.ru
 dslib.net
 dzen.ru
 fl.ru
+gamesville.ru
 gogetlinks.net
+imperia-kool.ru
 ivgpu.com
 knc.ru
 kodeks.ru
@@ -43,8 +46,9 @@ sitecheckup.com
 sports.ru
 studwork.ru
 tanki.su
-taplink.cc
 tap.link
+taplink.cc
+taplink.ru
 tgstat.com
 topvisor.com
 track-lesta.ru
@@ -56,6 +60,7 @@ vk.com
 web-shpargalka.ru
 webnames.ru
 wgstat.ru
+wot-random.ru
 ya.ru
 yandex.com
 yandex.com.tr
